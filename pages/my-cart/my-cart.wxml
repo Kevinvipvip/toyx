@@ -1,0 +1,64 @@
+<view class="full-loading" wx:if="{{full_loading}}">
+  <view class="image"></view>
+</view>
+
+<view class="page">
+  <view class="car-box">
+    <view class="car" wx:for="{{cartList}}" wx:key="id">
+      <view bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" style="{{item.txtStyle}}" class="car-move">
+        <view bindtap="check" data-index="{{index}}" class="check-box">
+          <icon type="success" color="#4981fb" wx:if="{{item.checked}}" />
+          <view class="no-check" wx:if="{{!item.checked}}"></view>
+        </view>
+        <image bindtap="to_goods" data-id="{{item.goods_id}}" src="{{item.cover}}" mode="aspectFill" class="cover"></image>
+        <view class="info">
+          <view class="title">
+            <view class="text two-line-ellipsis">{{item.name}}</view>
+            <view class="attr">
+              <view class="text one-line-ellipsis">规格：{{item.attr}}</view>
+            </view>
+          </view>
+          <view class="price-box">
+            <view class="price">
+              <view class="pinner">{{item.total_price}}</view>
+            </view>
+            <view class="add-sub">
+              <image bindtap="cartDec" data-id="{{item.id}}" data-index="{{index}}" src="/icons/minus.png" class="sub"></image>
+              <view class="num">{{item.num}}</view>
+              <image bindtap="cartInc" data-id="{{item.id}}" data-index="{{index}}" src="/icons/add.png" class="add"></image>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view data-index="{{index}}" bindtap="cartDel" class="inner del">删除</view>
+    </view>
+  </view>
+  <view class="friendly-nodata" wx:if="{{cartList.length == 0}}">
+    <image src="/images/nodata-goods.png" class="img"></image>
+    <view class="title">购物车里啥也没有</view>
+  </view>
+  <view class="settle" wx:if="{{cartList.length > 0}}">
+    <view bindtap="check_all_click" class="check-all">
+      <view class="no-check" wx:if="{{!check_all}}"></view>
+      <icon type="success" color="#4981fb" wx:if="{{check_all}}" />
+      <view class="all-text">全选</view>
+    </view>
+    <view class="right">
+      <view class="price-box">
+        <view class="total">
+          <text>合计：</text>
+          <text class="price">￥{{total}}</text>
+        </view>
+
+        <view class="yun-price" wx:if="{{carriage != 0}}">
+          <text>运费：</text>
+          <text class="price">￥{{carriage}}</text>
+        </view>
+        <view class="yun-price" wx:else>
+          <view class="no">不含运费</view>
+        </view>
+      </view>
+      <button bindtap="to_cart_order" class="settle-btn">结算</button>
+    </view>
+  </view>
+</view>

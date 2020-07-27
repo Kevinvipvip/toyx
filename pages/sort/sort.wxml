@@ -1,0 +1,35 @@
+<view class="page">
+	<view class="cate-wrapper">
+		<scroll-view scroll-y class="one-level">
+			<view class="scroll">
+				<view bindtap="tab_change" data-index="999999" class="item {{active_index == 999999 ? 'active' : ''}}">精品推荐</view>
+				<view bindtap="tab_change" data-index="{{index}}" class="item {{active_index == index ? 'active' : ''}}" wx:for="{{cate_list}}" wx:key="id">
+					{{item.cate_name}}
+				</view>
+			</view>
+		</scroll-view>
+		<scroll-view scroll-y class="two-level">
+			<view class='bwg-list' wx:if='{{active_index == 999999}}'>
+				<navigator url="/pages/bwg-goods-list/bwg-goods-list?id={{item.id}}&bwg={{item.museum_name}}" class="bwg" wx:for="{{museum_list}}" wx:key="id">
+					<image src="{{item.cover}}" class="cover" mode="widthFix" lazy-load></image>
+					<text>{{item.museum_name}}</text>
+				</navigator>
+			</view>
+			<view class="goods-list" wx:else>
+				<navigator url="/pages/shop-detail/shop-detail?id={{item.id}}" class="goods" wx:for="{{goods_list}}" wx:key="id">
+					<image src="{{item.pics[0]}}" class="cover" lazy-load></image>
+					<view class="info">
+						<view class="shang">
+							<view class="title two-line-ellipsis">{{item.name}}</view>
+							<view class="shop">{{item.museum_name}}</view>
+						</view>
+						<view class="price">{{item.price}}</view>
+					</view>
+				</navigator>
+			</view>
+			<view class="nodata" wx:if="{{nodata}}">
+				暂无商品
+			</view>
+		</scroll-view>
+	</view>
+</view>

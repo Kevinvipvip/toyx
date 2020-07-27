@@ -1,0 +1,158 @@
+<view class="page">
+  <!-- 顶部轮播/一张图的时候只显示图 -->
+  <view class="swiper-wrapper" wx:if="{{goods.pics.length > 1}}">
+    <swiper
+            autoplay="{{true}}"
+            class="top-swiper"
+            bindchange="swiper_change">
+      <swiper-item wx:for="{{goods.pics}}" wx:key="index">
+        <image src="{{item}}" mode="aspectFill"></image>
+      </swiper-item>
+    </swiper>
+
+    <view class="swiper-index">{{swiper_current + 1}}/{{goods.pics.length}}</view>
+  </view>
+  <view class="swiper-wrapper" wx:else>
+    <image src="{{goods.pics[0]}}" class="top-swiper" mode="aspectFit"></image>
+  </view>
+
+  <!-- 信息框 -->
+  <view class="info-box">
+    <view class="pt">
+      <view class="top-line">
+        <view class="price">{{goods.price}}</view>
+        <button bindgetuserinfo="auth" open-type="getUserInfo" class="share" wx:if="{{user_auth == 0}}">
+          <image src="/icons/share.png"></image>
+          <view class="text">分享</view>
+        </button>
+        <button bindtap="create_poster" class="share" wx:else>
+          <image src="/icons/share.png"></image>
+          <view class="text">分享</view>
+        </button>
+      </view>
+      <view class="title">{{goods.name}}</view>
+    </view>
+
+    <view class="fs">
+      <view class="freight">运费：￥{{goods.carriage}}</view>
+      <view class="stock">剩余{{goods.stock}}件</view>
+    </view>
+
+    <!-- 间隔条 -->
+    <view class="tiao"></view>
+  </view>
+
+  <!-- 商品详情 & 买家评价 -->
+  <view class="bottom-content">
+    <view class="tab-list">
+      <view class="tab {{tab_active == 0 ? 'active' : ''}}" bindtap="tab_change" data-tab="{{0}}">商品详情</view>
+      <view class="tab {{tab_active == 1 ? 'active' : ''}}" bindtap="tab_change" data-tab="{{1}}">买家评价</view>
+    </view>
+    <view class="content-wrapper" wx:if="{{tab_active == 0}}">
+      <import src="../../wxParse/wxParse.wxml"/>
+      <template is="wxParse" data="{{wxParseData:rich_text.nodes}}"/>
+    </view>
+    <view class="comment-box" wx:else>
+      <view class="comment" wx:for="{{comment_list}}" wx:key="index">
+        <view class="user-line">
+          <image src="{{item.avatar}}" class="header"></image>
+          <view class="info">
+            <view class="nickname one-line-ellipsis">{{item.nickname}}</view>
+            <view class="pd">
+              <view class="param one-line-ellipsis">{{item.attr}}</view>
+              <view class="date">{{item.create_time}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="com-content">{{item.comment}}</view>
+      </view>
+      <view class="nomore" wx:if="{{nomore}}">
+        已加载全部评论
+      </view>
+      <view class="nodata" wx:if="{{nodata}}">
+        暂无评论
+      </view>
+    </view>
+  </view>
+
+  <view class="foot">
+    <button open-type="contact" show-message-card="true" class="tab-btn contact">
+      <image src="/icons/custom-service.png" class="icon"></image>
+      <view class="text">客服</view>
+    </button>
+    <view bindtap="to_shop_car" class="tab-btn shop-car">
+      <image src="/icons/shopping-cart2.png" class="icon"></image>
+      <view class="text">购物车</view>
+    </view>
+    <view class="btn-set">
+      <button bindgetuserinfo="auth" open-type="getUserInfo" class="btn add" wx:if="{{user_auth == 0}}">
+        加入购物车
+      </button>
+      <view bindtap="cartAdd" class="btn add" wx:else>
+        加入购物车
+      </view>
+
+      <button bindgetuserinfo="auth" open-type="getUserInfo" class="btn buy" wx:if="{{user_auth == 0}}">
+        立即购买
+      </button>
+      <view bindtap="buy" class="btn buy" wx:else>
+        立即购买
+      </view>
+    </view>
+  </view>
+
+  <view catchtap="hide" catchtouchmove class="param-modal {{attr_active ? 'active' : ''}}" wx:if="{{attr_show}}">
+    <view catchtap class="content">
+      <view bindtap="hide" class="close">
+        <icon class="iconfont iconcha"/>
+      </view>
+      <view class="header">
+        <image src="{{goods.pics[0]}}" class="cover" mode="aspectFill"></image>
+        <view class="info">
+          <view class="goods-name two-line-ellipsis">{{goods.name}} {{goods.attr_list[attr_index].value}}</view>
+          <view class="price">{{goods.use_attr == 1 ? goods.attr_list[attr_index].price : goods.price}}</view>
+        </view>
+      </view>
+      <view class="param" wx:if="{{goods.use_attr == 1}}">
+        <view class="param-name">
+          {{goods.attr}}
+        </view>
+        <view class="param-list">
+          <view bindtap="attr_choose" data-index="{{index}}" class="{{attr_index == index ? 'active' : ''}} {{item.stock == 0 ? 'disabled' : ''}}" wx:for="{{goods.attr_list}}" wx:key="id">{{item.value}}</view>
+        </view>
+      </view>
+      <view class="amount-block">
+        <view class="title">购买数量</view>
+        <view class="xia-box">
+          <view class="stock">剩余{{goods.use_attr == 1 ? goods.attr_list[attr_index].stock : goods.stock}}件</view>
+          <view class="add-sub">
+            <image bindtap="sub" src="/icons/minus.png" class="sub"></image>
+            <view class="num">{{amount}}</view>
+            <image bindtap="add" src="/icons/add2.png" class="add"></image>
+          </view>
+        </view>
+      </view>
+      <button bindtap="buy_btn" class="param-buy-btn">{{buy_type == 1 ? '立即购买' : '确定加入'}}</button>
+    </view>
+  </view>
+
+  <canvas canvas-id="qrcode" class="qrc" style="width: 300px; height: 300px;"></canvas>
+  <canvas canvas-id="poster-canvas" class="poc" style="width: 914px; height: {{line_count * 80 + 1394}}px;"></canvas>
+
+  <view class="mask-box" wx:if="{{poster_show}}">
+    <view class="img-box">
+      <image src="{{poster}}" class="poster" style="height: {{line_count * 40 + 697}}rpx;"></image>
+      <image bindtap="hide_poser" src="/icons/poster-x.png" class="cancel"></image>
+    </view>
+    <button catchtap="save_poster" class="save-btn">保存</button>
+  </view>
+
+  <view bindtap="hide_set_btn" class="setting-box" wx:if="{{show_set_btn}}">
+    <view class="os-box">
+      <view>
+        请在设置中打开保存图片到相册的权限
+      </view>
+      <button catchtap="hide_set_btn" open-type="openSetting" class="set_btn">打开设置</button>
+    </view>
+  </view>
+</view>

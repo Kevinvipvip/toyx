@@ -1,0 +1,119 @@
+<view class="page">
+	<view class="header-user">
+		<image class="header-bg" src="../../icons/my-header-bg.png" mode="widthFix"></image>
+		<!-- 用户信息 -->
+		<view class="user-box" style="padding-top:{{topBarHeight + statusBarHeight}}px">
+			<view class="navigationBarTitleText" style="top:{{statusBarHeight}}px;height:{{topBarHeight}}px">我的</view>
+			<image src="{{user.avatar}}" class="header"></image>
+			<view class="info">
+				<view class="title-line">
+					<button bindgetuserinfo="auth" open-type="getUserInfo" class="auth" wx:if="{{user.user_auth == 0}}">点击授权</button>
+					<view class="nickname one-line-ellipsis" wx:else>{{user.nickname}}</view>
+					<!--<view class="is-vip">VIP</view>-->
+				</view>
+				<!--<view class="vip-text">已成为会员</view>-->
+			</view>
+		</view>
+	</view>
+	<!-- 我的订单 -->
+	<view class="order-box">
+		<view class="top-line">
+			<view class="title">我的订单</view>
+			<navigator url="/pages/my-orders/my-orders" class="all">
+				<view class="zi">全部订单</view>
+				<image src="/icons/right-arrow.png"></image>
+			</navigator>
+		</view>
+		<view class="o-menus">
+			<navigator url="/pages/my-orders/my-orders?status=0" class="o-menu">
+				<image src="/icons/my-order-fukuan.png" class="icon"></image>
+				<view class="explain">待付款</view>
+			</navigator>
+			<navigator url="/pages/my-orders/my-orders?status=1" class="o-menu">
+				<image src="/icons/my-order-fahuo.png" class="icon"></image>
+				<view class="explain">待发货</view>
+			</navigator>
+			<navigator url="/pages/my-orders/my-orders?status=2" class="o-menu">
+				<image src="/icons/my-order-shouhuo.png" class="icon"></image>
+				<view class="explain">待收货</view>
+			</navigator>
+			<navigator url="/pages/my-orders/my-orders?status=3" class="o-menu">
+				<image src="/icons/my-order-wancheng.png" class="icon"></image>
+				<view class="explain">已完成</view>
+			</navigator>
+		</view>
+	</view>
+
+	<!-- 签到 -->
+	<view class="sign">
+		<navigator url="/pages/sign-in/sign-in" class="sign-url">
+			<image src="/icons/my-sign.png" mode="widthFix"></image>
+		</navigator>
+	</view>
+	<!-- 我的服务 -->
+	<view class="menu-box">
+		<view class="title">我的服务</view>
+		<view class="menu-list">
+			<view class="mesu-item">
+				<navigator url="/pages/my-orders/my-orders" class="menu">
+					<image src="/icons/my-sevrice-info.png" class="icon" mode="widthFix" style="width: 44rpx"></image>
+					<view class="text">个人信息</view>
+				</navigator>
+			</view>
+			<view class="mesu-item">
+				<navigator url="/pages/my-address/my-address" class="menu">
+					<image src="/icons/my-serivce-address.png" class="icon" mode="widthFix" style="width: 31rpx"></image>
+					<view class="text">收货地址</view>
+				</navigator>
+			</view>
+			<view class="mesu-item">
+				<navigator url="/pages/my-address/my-address" class="menu">
+					<image src="/icons/my-service-invit.png" class="icon" mode="widthFix" style="width: 42rpx"></image>
+					<view class="text">我的邀请</view>
+				</navigator>
+			</view>
+			<view class="mesu-item">
+				<navigator url="/pages/refund-list/refund-list" class="menu">
+					<image src="/icons/my-service-after.png" class="icon" mode="widthFix" style="width: 42rpx"></image>
+					<view class="text">售后服务</view>
+				</navigator>
+			</view>
+			<view class="mesu-item">
+				<navigator url="/pages/poster/poster" class="menu">
+					<image src="/icons/my-service-about.png" class="icon" mode="widthFix" style="width: 42rpx"></image>
+					<view class="text">关于我们</view>
+				</navigator>
+			</view>
+			<view class="mesu-item">
+				<button open-type="contact" class="menu">
+					<image src="/icons/my-service-online.png" class="icon" mode="widthFix" style="width: 42rpx"></image>
+					<view class="text">在线客服</view>
+				</button>
+			</view>
+		</view>
+	</view>
+
+	<!-- 其他推荐 -->
+	<view class="goods-box">
+		<view class="title"><view class="line"></view><text>其他推荐</text><view class="line"></view></view>
+		<view class="goods-list">
+			<navigator url="/pages/shop-detail/shop-detail?id={{item.id}}" class="goods" wx:for="{{goods_list}}">
+				<image src="{{item.pics[0]}}" class="cover"></image>
+				<view class="info">
+					<view class="title one-line-ellipsis">{{item.name}}</view>
+					<view class="price-cart">
+						<view class="price">{{item.price}}</view>
+						<image class="icon" src="../../icons/icon-cart.png"></image>
+					</view>
+				</view>
+			</navigator>
+		</view>
+		<!-- nomore/nodata -->
+		<view class="nomore" wx:if="{{nomore}}">
+			已经没有更多了哦
+		</view>
+		<view class="nodata" wx:if="{{nodata}}">
+			暂无商品
+		</view>
+	</view>
+</view>

@@ -1,0 +1,296 @@
+.page {
+	background-color: #fafafa;
+}
+
+.header-user {
+	width: 100%;
+	position: relative;
+}
+
+.header-user .header-bg {
+	width: 100%;
+	height: 100%;
+}
+
+/* 用户信息 */
+.user-box {
+	padding: 25rpx;
+	display: flex;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.user-box .navigationBarTitleText {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 37rpx;
+	color: #ffffff;
+}
+
+.user-box .header {
+	flex-shrink: 0;
+	width: 120rpx;
+	height: 120rpx;
+	border-radius: 50%;
+}
+
+.user-box .info {
+	width: 0;
+	flex-grow: 1;
+	margin-left: 37rpx;
+}
+
+.user-box .info .title-line {
+	display: flex;
+}
+
+.user-box .info .title-line .auth {
+	width: 180rpx;
+	height: 60rpx;
+	padding: 0;
+	margin: 0;
+	line-height: 60rpx;
+	background: #475a84;
+	border-radius: 5rpx;
+	text-align: center;
+	font-size: 32rpx;
+	color: #fff;
+	min-height: auto;
+	font-weight: normal;
+}
+
+.user-box .info .title-line .nickname {
+	font-size: 28rpx;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+/* 我的订单 */
+.order-box {
+	margin: 24rpx;
+	background-color: #ffffff;
+	border-radius: 8rpx;
+	padding: 30rpx 25rpx;
+}
+
+.order-box .top-line {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 26rpx;
+}
+
+.order-box .top-line .title {
+	font-size: 32rpx;
+	color: #333;
+}
+
+.order-box .top-line .all {
+	display: flex;
+	align-items: center;
+}
+
+.order-box .top-line .all .zi {
+	color: #999999;
+	font-size: 24rpx;
+	margin-right: 5rpx;
+}
+
+.order-box .all image {
+	width: 16rpx;
+	height: 25rpx;
+}
+
+.order-box .o-menus {
+	display: flex;
+	margin-top: 40rpx;
+	justify-content: space-between;
+}
+
+.order-box .o-menus .o-menu {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.order-box .o-menus .o-menu .icon {
+	width: 44rpx;
+	height: 38rpx;
+}
+
+.order-box .o-menus .o-menu .explain {
+	margin-top: 20rpx;
+	color: #666;
+	font-size: 26rpx;
+}
+
+/* 签到 */
+.sign {
+	margin: 46rpx 24rpx;
+}
+
+.sign image {
+	width: 100%;
+}
+
+/* 其他推荐 */
+.menu-box {
+	margin: 0 24rpx;
+	background-color: #ffffff;
+	border-radius: 8rpx;
+	padding: 24rpx;
+}
+
+.menu-box>.title {
+	font-size: 32rpx;
+	color: #333;
+	padding-bottom: 26rpx;
+}
+
+.menu-box .menu-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 40rpx 0;
+}
+
+.menu-box .mesu-item {
+	width: 26%;
+	margin: 20px 0 0 0;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+
+.menu-box .menu {
+	box-sizing: border-box;
+	text-align: center;
+	border: 0;
+	padding: 0;
+	width: 110rpx;
+	background: transparent;
+	font-weight: normal;
+	line-height: 1;
+}
+
+.menu-box .mesu-item:nth-child(-n + 3) {
+	margin-top: 0;
+}
+
+.menu-box .menu .text {
+	margin-top: 20rpx;
+	color: #666;
+	font-size: 26rpx;
+}
+
+/* 其他推荐 */
+.goods-box {
+	padding: 60rpx 24rpx 0;
+}
+
+.goods-box>.title {
+	padding-bottom: 33rpx;
+	display: flex;
+	align-items: center;
+}
+
+.goods-box>.title text {
+	margin: 0 6rpx;
+	display: block;
+	font-size: 32rpx;
+	color: #333;
+}
+
+.goods-box>.title .line {
+	height: 2rpx;
+	background-color: #fec162;
+	flex-grow: 1;
+}
+
+.goods-box .goods-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.goods-box .goods-list .goods {
+	width: 340rpx;
+	/* border-radius: 10rpx; */
+	overflow: hidden;
+	margin-top: 22rpx;
+	margin-right: 22rpx;
+}
+
+
+.goods-box .goods-list .goods:nth-child(-n + 2) {
+	margin-top: 0;
+}
+
+.goods-box .goods-list .goods:nth-child(2n) {
+	margin-right: 0;
+}
+
+.goods .cover {
+	width: 340rpx;
+	height: 340rpx;
+	vertical-align: bottom;
+}
+
+.goods .info {
+	padding: 18rpx 0 30rpx;
+}
+
+.goods .info .title {
+	font-size: 26rpx;
+	color: #3f3f3f;
+	text-align: justify;
+}
+
+/* .goods .info .shop {
+  margin-top: 17rpx;
+  padding: 8rpx 20rpx;
+  background: #ff3f3f;
+  font-size: 20rpx;
+  color: #fff;
+  display: inline-block;
+}
+
+.goods .info .desc {
+  margin-top: 17rpx;
+  color: #999;
+  font-size: 24rpx;
+} */
+.goods .info .price-cart {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 30rpx;
+}
+
+.goods .info .price-cart .icon {
+	width: 32rpx;
+	height: 32rpx;
+}
+
+.goods .info .price::before {
+	content: '￥';
+	font-size: 28rpx;
+	color: #f04c2d;
+	margin-right: 5rpx;
+}
+
+.goods .info .price {
+	font-size: 28rpx;
+	margin-top: 10rpx;
+	color: #f04c2d;
+}

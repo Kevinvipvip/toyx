@@ -1,0 +1,34 @@
+<view class="full-loading" wx:if="{{full_loading}}">
+	<view class="image"></view>
+</view>
+<view class="container">
+	<!-- 搜索框 -->
+	<view class="search-box">
+		<view class="white-box">
+			<input bindinput="bind_input" data-name="search" value="{{search}}" focus bindconfirm="search_goods" type="text" class="search" placeholder="搜索商品" maxlength="50" />
+			<image bindtap="search_goods" src="/icons/search.png" class="icon"></image>
+		</view>
+	</view>
+
+	<!-- 商品列表 -->
+	<view class="goods-box">
+		<view class="goods-list">
+			<navigator url="/pages/shop-detail/shop-detail?id={{item.id}}" class="goods" wx:for="{{goods_list}}">
+				<image src="{{item.pics[0]}}" class="cover"></image>
+				<view class="info">
+					<view class="title one-line-ellipsis">{{item.name}}</view>
+					<view class="shop one-line-ellipsis">{{item.museum_name}}</view>
+					<view class="desc one-line-ellipsis">{{item.desc}}</view>
+					<view class="price">{{item.price}}</view>
+				</view>
+			</navigator>
+		</view>
+		<!-- nomore/nodata -->
+		<view class="nomore" wx:if="{{nomore}}">
+			已经没有更多了哦
+		</view>
+		<view class="nodata" wx:if="{{nodata}}">
+			暂无商品
+		</view>
+	</view>
+</view>

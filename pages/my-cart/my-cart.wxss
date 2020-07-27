@@ -1,0 +1,272 @@
+.page {
+  background: #f6f7f9;
+  min-height: 100vh;
+  padding-bottom: 120rpx;
+  box-sizing: border-box;
+  padding-top: 1rpx;
+}
+
+.car-box {
+}
+
+.car-box .car {
+  background: #fff;
+  padding: 15rpx;
+  margin-top: 20rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.car-box .car > view {
+  position: relative;
+  top: 0;
+}
+
+.car-box .car .car-move {
+  z-index: 5;
+  width: 100%;
+  background: #fff;
+  overflow: hidden;
+  transition: left 0.2s ease-in-out;
+  display: flex;
+}
+
+.car-box .car .del {
+  background: #e64340;
+  width: 180rpx;
+  text-align: center;
+  z-index: 4;
+  right: 0;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: 15rpx;
+  font-size: 32rpx;
+}
+
+.car-box .check-box {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 50rpx;
+}
+
+.car-box .check-box icon {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.car-box .check-box .no-check {
+  width: 47rpx;
+  height: 47rpx;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 2rpx solid #bbb;
+  flex-shrink: 0;
+}
+
+.car-box .car .cover {
+  flex-shrink: 0;
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 4rpx;
+  margin-left: 15rpx;
+}
+
+.car-box .car .info {
+  flex-grow: 1;
+  margin-left: 24rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.car-box .car .info .title {
+  font-size: 28rpx;
+  line-height: 42rpx;
+  color: rgba(61, 55, 55, 0.9);
+}
+
+.car-box .car .info .title .attr {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1;
+  display: flex;
+}
+
+.car-box .car .info .title .attr .text {
+  width: 0;
+  flex-grow: 1;
+}
+
+.car-box .car .info .price-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.car-box .car .info .price-box .price {
+}
+
+.car-box .car .info .price-box .price .carriage {
+  color: #888;
+  font-size: 24rpx;
+  margin-bottom: 14rpx;
+}
+
+.car-box .car .info .price-box .price .pinner::before {
+  content: '￥';
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.car-box .car .info .price-box .price .pinner {
+  font-size: 28rpx;
+  color: #ff3f3f;
+}
+
+.car-box .car .info .price-box .add-sub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 10rpx;
+}
+
+.car-box .car .info .price-box .add-sub .sub {
+  width: 44rpx;
+  height: 44rpx;
+  margin-right: 10rpx;
+}
+
+.car-box .car .info .price-box .add-sub .num {
+  height: 40rpx;
+  box-sizing: border-box;
+  border: 2rpx solid #bfbfbf;
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: rgba(0, 0, 0, 0.6);
+  margin-right: 10rpx;
+  padding: 0 15rpx;
+}
+
+.car-box .car .info .price-box .add-sub .add {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.no-shop {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx;
+  color: #666;
+}
+
+.no-shop .iconfont {
+  font-size: 90rpx;
+}
+
+.no-shop .text {
+  font-size: 28rpx;
+  margin-top: 23rpx;
+}
+
+.settle {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: -2rpx 0 3rpx #eee;
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  height: 100rpx;
+  z-index: 10;
+}
+
+.settle .check-all {
+  display: flex;
+  align-items: center;
+  padding: 15rpx 15rpx 15rpx 25rpx;
+}
+
+.settle .check-all icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.settle .check-all .no-check {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 1rpx solid #bbb;
+  flex-shrink: 0;
+}
+
+.settle .check-all .all-text {
+  margin-left: 15rpx;
+  font-size: 30rpx;
+}
+
+.settle .right {
+  display: flex;
+}
+
+.settle .right .price-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 7rpx;
+  align-items: flex-end;
+}
+
+.settle .right .yun-price, .settle .right .total {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+}
+
+.settle .right .total {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.settle .right .total .price {
+  color: #ff3f3f;
+}
+
+.settle .right .yun-price {
+  margin-top: 11rpx;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.settle .right .yun-price .price {
+  color: #ff3f3f;
+}
+
+.settle .right .yun-price .no {
+  letter-spacing: 1rpx;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.settle .settle-btn {
+  width: 230rpx;
+  height: 80rpx;
+  background-image: linear-gradient(90deg, #4796fb 0%, #497cfc 100%);
+  border-radius: 40rpx;
+  line-height: 80rpx;
+  text-align: center;
+  padding: 0;
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 1rpx;
+  align-self: center;
+  margin: 0 24rpx;
+}
