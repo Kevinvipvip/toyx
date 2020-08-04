@@ -1,0 +1,48 @@
+<view class="page" style="{{id == 0 ? 'padding-top: 87rpx' : 'padding-top: 2rpx'}}">
+  <!-- 获取微信收货地址 -->
+  <view bindtap="choose_address" class="get-wechat" wx:if="{{id == 0}}">
+    <image src="/icons/wechat.png" class="icon"></image>
+    <view class="title">获取微信收货地址</view>
+    <image src="/icons/icon_right_arrow2.png" class="right-arrow"></image>
+  </view>
+
+  <view class="form">
+    <view class="form-item">
+      <view class="label">姓名</view>
+      <view class="right">
+        <input bindinput="bind_input" data-name="username" value="{{username}}" type="text" placeholder="收货人姓名" maxlength="30" />
+      </view>
+    </view>
+    <view class="form-item">
+      <view class="label">电话</view>
+      <view class="right">
+        <input bindinput="bind_input" type="number" data-name="tel" value="{{tel}}" type="text" placeholder="收货人手机号" maxlength="11" />
+      </view>
+    </view>
+    <view class="form-item">
+      <view class="label">地址</view>
+      <view class="right">
+        <picker
+                value="{{citys}}"
+                mode="region"
+                bindchange="citys_change">
+          <view class="region">
+            <view class="text one-line-ellipsis" wx:if="{{provincename}}">{{provincename}} {{cityname}} {{countyname}}</view>
+            <view class="placeholder" wx:else>选择省/市/区</view>
+            <image src="/icons/icon_right_arrow2.png" class="right-arrow"></image>
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="form-item add-detail">
+      <view class="label">详细地址</view>
+      <view class="right">
+        <textarea bindinput="bind_input" data-name="detail" value="{{detail}}" auto-height maxlength="100" cursor-spacing="50" placeholder="街道门牌、楼层房间号等信息" class="{{is_ios ? 'text-plat-ios' : 'text-plat'}}" />
+      </view>
+    </view>
+  </view>
+
+  <view class="btn-box">
+    <button bindtap="addressEdit" class="new-btn">保存</button>
+  </view>
+</view>

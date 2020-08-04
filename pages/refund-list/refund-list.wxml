@@ -1,0 +1,59 @@
+<view class="full-loading" wx:if="{{full_loading}}">
+  <view class="image"></view>
+</view>
+
+<view class="page">
+  <view class="tab">
+    <view class="tab-item {{type == 0 ? 'active' : ''}}" data-type="{{0}}" bindtap="tab_change">
+      <view class="text">全部</view>
+    </view>
+    <view class="tab-item {{type == 1 ? 'active' : ''}}" data-type="{{1}}" bindtap="tab_change">
+      <view class="text">退款中</view>
+    </view>
+    <view class="tab-item {{type == 2 ? 'active' : ''}}" data-type="{{2}}" bindtap="tab_change">
+      <view class="text">已退款</view>
+    </view>
+  </view>
+  <view class="order-list">
+    <view class="order" wx:for="{{refund_list}}" wx:key="id">
+      <view class="order-info">
+        <div class="label">订单状态</div>
+        <view class="text">{{item.refund_text}}</view>
+      </view>
+      <view class="pro-box">
+        <view class="pro" wx:for="{{item.child}}" wx:for-item="order" wx:key="index">
+          <image src="{{order.cover}}?imageView2/2/w/200" class="pic" mode="aspectFill"></image>
+          <view class="info">
+            <view class="shang">
+              <view class="title two-line-ellipsis">{{order.goods_name}}</view>
+              <view class="attr one-line-ellipsis">{{order.attr}}</view>
+            </view>
+            <view class="xia">
+              <view class="price">{{order.unit_price}}</view>
+              <view class="amount">
+                <image src="/icons/cha.png" class="times"></image>
+                <view class="num">{{order.num}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="count">
+        <view class="amount">共{{item.sum}}件商品</view>
+        <view class="total">
+          <view class="label">合计：</view>
+          <view class="price">{{item.total_price}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="nomore" wx:if="{{nomore}}">
+    已经到底了
+  </view>
+
+  <view class="friendly-nodata" wx:if="{{nodata}}">
+    <image src="/icons/nodata-order.png" class="img"></image>
+    <view class="title">暂无订单</view>
+  </view>
+</view>

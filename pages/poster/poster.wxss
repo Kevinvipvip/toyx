@@ -1,0 +1,408 @@
+.page {
+  background: #fcfafa;
+  padding-top: 24rpx;
+}
+
+.poster {
+  padding: 50rpx 0;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 24rpx;
+  box-shadow: 0 1rpx 76rpx 0 rgba(241, 238, 238, 0.75);
+}
+
+.poster .cover {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 50%;
+}
+
+.poster .create-poster {
+  padding: 0 50rpx;
+  margin: 30rpx 0 0;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 26rpx;
+  color: #fff;
+  background: #FBB03B;
+  min-height: auto;
+}
+
+.invite-box {
+  margin: 50rpx 24rpx 0;
+  padding: 24rpx;
+  background: #fff;
+  box-shadow: 0 1rpx 76rpx 0 rgba(241, 238, 238, 0.75);
+}
+
+.invite-box .rule {
+  border: 2rpx solid #ADADFF;
+  padding: 15rpx;
+  line-height: 1.4;
+  font-size: 26rpx;
+  color: #ADADFF;
+  margin-bottom: 33rpx;
+  opacity: 0.8;
+}
+
+.invite-box .title {
+  font-size: 30rpx;
+  color: #FBB03B;
+  display: flex;
+  align-items: center;
+}
+
+.invite-box .title::before {
+  content: '';
+  width: 6rpx;
+  height: 40rpx;
+  opacity: 0.8;
+  background: #FBB03B;
+  margin-right: 8rpx;
+}
+
+.invite-list {
+  margin-top: 30rpx;
+}
+
+.invite-list .invite:first-child {
+  margin-top: 0;
+}
+
+.invite-list .invite.hd {
+  color: #ADADFF;
+  font-size: 28rpx;
+  border-top: 2rpx solid #ddd;
+  padding-top: 20rpx;
+}
+
+.invite-list .invite.hd .header {
+  height: auto;
+}
+
+.invite-list .invite.hd .price {
+  color: inherit;
+}
+
+.invite-list .invite {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+  border-bottom: 2rpx solid #ddd;
+  padding-bottom: 20rpx;
+  justify-content: space-between;
+}
+
+.invite-list .invite > view:first-child {
+  margin-left: 0;
+}
+
+.invite-list .invite > view {
+  text-align: center;
+}
+
+.invite-list .invite > .hd-box {
+  width: 100rpx;
+}
+
+.invite-list .invite > .hd-box .header {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+}
+
+.invite-list .invite > .nickname {
+  width: 120rpx;
+}
+
+.invite-list .invite > .date {
+  width: 160rpx;
+}
+
+.invite-list .invite > .price {
+  width: 120rpx;
+  color: #FBB03B;
+}
+
+.invite-list .invite > .detail {
+  flex-grow: 1;
+}
+
+.invite-list .invite > .detail button {
+  padding: 0 10rpx;
+  margin: 0;
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 24rpx;
+  color: #fff;
+  background: #FBB03B;
+  min-height: auto;
+}
+
+.invite-list .total {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 24rpx;
+}
+
+.invite-list .total .label {
+}
+
+.invite-list .total .price {
+  color: #FBB03B;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  height: 100vh;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.modal {
+  position: absolute;
+  left: 60rpx;
+  right: 60rpx;
+  top: 60rpx;
+  bottom: 60rpx;
+  background: #fff;
+}
+
+.modal > .content {
+  padding: 24rpx;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.invitee {
+  display: flex;
+  background: #eee;
+  padding: 18rpx;
+}
+
+.invitee .header {
+  flex-shrink: 0;
+  width: 110rpx;
+  height: 110rpx;
+}
+
+.invitee .info {
+  flex-grow: 1;
+  margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* font-size: 26rpx; */
+}
+
+.invitee .info .info-item {
+  display: flex;
+  align-items: center;
+}
+
+.invitee .info .info-item .label {
+  width: 110rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  text-align: justify;
+  overflow: hidden;
+  color: #333;
+  flex-shrink: 0;
+}
+
+.invitee .info .info-item .label::after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+}
+
+.invitee .info .info-item .value {
+  flex-grow: 1;
+  margin-left: 25rpx;
+  caption-side: #888;
+}
+
+.invitee .info .value.nickname {
+}
+
+.invitee .info .value.date {
+}
+
+.invitee .info .value.price {
+  color: red;
+}
+
+.content .ta-title {
+  border-top: 2rpx dashed #ccc;
+  margin-top: 30rpx;
+  padding-top: 30rpx;
+  font-size: 32rpx;
+  padding-bottom: 22rpx;
+}
+
+.modal .close {
+  padding: 10rpx;
+  position: absolute;
+  right: -23rpx;
+  top: -23rpx;
+  z-index: 1;
+}
+
+.modal .close image {
+  width: 40rpx;
+  height: 40rpx;
+  border: 5rpx solid #fff;
+  border-radius: 50%;
+}
+
+.iinvite-box {
+  flex-grow: 1;
+  background: #eee;
+  border: 2rpx solid #ddd;
+  padding: 20rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.il-wrapper {
+  flex-grow: 1;
+}
+
+.iinvite-list {
+}
+
+.iinvite-box .iinvite:first-child {
+  margin-top: 0;
+}
+
+.iinvite-box .iinvite.hd {
+  color: #4583fb;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.iinvite-box .iinvite.hd .header {
+  height: auto;
+}
+
+.iinvite-box .iinvite.hd .price {
+  color: inherit;
+}
+
+.iinvite-box .iinvite {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+  border-bottom: 2rpx solid #ddd;
+  padding-bottom: 20rpx;
+}
+
+.iinvite-box .iinvite:last-child {
+  /* border-bottom: 0; */
+  /* padding-bottom: 0; */
+}
+
+.iinvite-box .iinvite > view:first-child {
+  margin-left: 0;
+}
+
+.iinvite-box .iinvite > view {
+  margin-left: 24rpx;
+}
+
+.iinvite-box .iinvite .hd-box {
+  width: 80rpx;
+}
+
+.iinvite-box .iinvite .header {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+}
+
+.iinvite-box .iinvite .nickname {
+  width: 120rpx;
+}
+
+.iinvite-box .iinvite .date {
+  width: 160rpx;
+}
+
+.iinvite-box .iinvite .price {
+  flex-grow: 1;
+  color: red;
+}
+
+.iinvite-box .total {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 24rpx;
+}
+
+.iinvite-box .total .label {
+}
+
+.iinvite-box .total .price-total {
+  color: red;
+}
+
+.canvas {
+  position: fixed;
+  left: -10000rpx;
+}
+
+.poster-canvas {
+  width: 1000rpx;
+  height: 1600rpx;
+}
+
+.modal.poster-modal {
+  background: transparent;
+  left: 0;
+  right: 0;
+  width: 500rpx;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  position: relative;
+}
+
+.poster-modal .poster-img {
+  width: 500rpx;
+  height: 800rpx;
+  display: block;
+}
+
+.poster-modal .save-btn {
+  width: 500rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+	background-image: linear-gradient(90deg, #4796fb 0%, #497cfc 100%);
+  font-size: 32rpx;
+  letter-spacing: 1rpx;
+  color: #e6e6e6;
+  margin-top: 36rpx;
+  font-weight: normal;
+}

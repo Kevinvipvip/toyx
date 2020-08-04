@@ -65,10 +65,10 @@
   color: #ff3f3f;
 }
 
-.info-box .pt .top-line .share {
+/* .info-box .pt .top-line .share {
+  display: none;
   flex-shrink: 0;
   background: #2586ff;
-  display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 -24rpx 0 0;
@@ -82,7 +82,7 @@
   min-height: auto;
   line-height: 1;
   font-weight: normal;
-}
+} */
 
 .info-box .pt .top-line .share image {
   width: 24rpx;
@@ -91,13 +91,13 @@
 }
 
 .info-box .pt .top-line .share .text {
-   color: rgba(255, 255, 255, 0.8);
-   font-size: 24rpx;
- }
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 24rpx;
+}
 
 .info-box .pt .title {
   margin-top: 13rpx;
-  font-size: 28rpx;
+  font-size: 32rpx;
   line-height: 42rpx;
   color: #3d3737;
 }
@@ -112,11 +112,9 @@
   color: rgba(61, 55, 55, 0.4);
 }
 
-.info-box .fs .freight {
-}
+.info-box .fs .freight {}
 
-.info-box .fs .stock {
-}
+.info-box .fs .stock {}
 
 .info-box .tiao {
   height: 40rpx;
@@ -136,8 +134,7 @@
   margin-bottom: 25rpx;
 }
 
-.bottom-content {
-}
+.bottom-content {}
 
 .bottom-content .tab-list {
   display: flex;
@@ -150,14 +147,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(69, 131, 251 ,0.4);
+  color: rgba(251, 176, 59, 0.4);
   border-bottom: 5rpx solid rgba(60, 120, 245, 0.07);
   font-size: 32rpx;
 }
 
 .bottom-content .tab-list .tab.active {
-  color: #4583fb;
-  border-bottom-color: #3c78f5;
+  color: #FBB03B;
+  border-bottom-color: #FBB03B;
 }
 
 .bottom-content .content-wrapper {
@@ -165,11 +162,9 @@
   background: #fff;
 }
 
-.comment-box {
-}
+.comment-box {}
 
-.comment-box .comment:first-child {
-}
+.comment-box .comment:first-child {}
 
 .comment-box .comment {
   box-shadow: 0 1rpx 76rpx 0 rgba(241, 238, 238, 0.75);
@@ -294,12 +289,12 @@
 
 .foot .btn-set .add {
   border-radius: 40rpx 0 0 40rpx;
-  background-image: linear-gradient(90deg, #8688ff 0%, #6365fa 100%);
+  background-color: rgb(173, 173, 255);
 }
 
 .foot .btn-set .buy {
   border-radius: 0 40rpx 40rpx 0;
-  background-image: linear-gradient(90deg, #4796fb 0%, #497cfc 100%);
+  background-color: #FBB03B;
 }
 
 .param-modal {
@@ -412,7 +407,7 @@
   flex-wrap: wrap;
 }
 
-.param-modal .param .param-list > view {
+.param-modal .param .param-list>view {
   font-size: 26rpx;
   background: rgba(0, 0, 0, 0.03);
   padding: 11rpx 24rpx;
@@ -424,13 +419,13 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
-.param-modal .param .param-list > view.active {
+.param-modal .param .param-list>view.active {
   color: #2586ff;
   background: #f1f6ff;
   border-color: #2586ff;
 }
 
-.param-modal .param .param-list > view.disabled {
+.param-modal .param .param-list>view.disabled {
   color: #bbbb;
 }
 
@@ -488,9 +483,7 @@
 }
 
 .param-modal .param-buy-btn {
-  background-image: linear-gradient(90deg,
-  #4796fb 0%,
-  #497cfc 100%);
+  background-color: #FBB03B;
   border-radius: 40rpx;
   height: 80rpx;
   line-height: 80rpx;
@@ -565,4 +558,5 @@
   margin-top: 32rpx;
   font-weight: normal;
 }
+
 /* 海报 end */

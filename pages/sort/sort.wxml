@@ -9,15 +9,15 @@
 			</view>
 		</scroll-view>
 		<scroll-view scroll-y class="two-level">
-			<view class='bwg-list' wx:if='{{active_index == 999999}}'>
+			<!-- <view class='bwg-list' wx:if='{{active_index == 999999}}'>
 				<navigator url="/pages/bwg-goods-list/bwg-goods-list?id={{item.id}}&bwg={{item.museum_name}}" class="bwg" wx:for="{{museum_list}}" wx:key="id">
 					<image src="{{item.cover}}" class="cover" mode="widthFix" lazy-load></image>
 					<text>{{item.museum_name}}</text>
 				</navigator>
-			</view>
-			<view class="goods-list" wx:else>
+			</view> -->
+			<view class="goods-list">
 				<navigator url="/pages/shop-detail/shop-detail?id={{item.id}}" class="goods" wx:for="{{goods_list}}" wx:key="id">
-					<image src="{{item.pics[0]}}" class="cover" lazy-load></image>
+					<image src="{{item.pics[0]}}?x-oss-process=image/resize,w_200" class="cover" lazy-load></image>
 					<view class="info">
 						<view class="shang">
 							<view class="title two-line-ellipsis">{{item.name}}</view>

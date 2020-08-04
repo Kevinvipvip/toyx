@@ -27,7 +27,7 @@ Page({
       token: app.user_data.token
     };
     app.ajax('shop/cartList', post, (res) => {
-      app.qiniu_format(res, 'cover');
+      app.aliyun_format(res, 'cover');
       for (let i = 0; i < res.length; i++) {
         res[i].checked = true;  // 开始商品是全选的
         res[i].txtStyle = '';  // 左滑样式

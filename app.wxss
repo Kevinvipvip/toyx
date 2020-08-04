@@ -1,3 +1,5 @@
+@import "colorui/main.wxss";
+@import "colorui/icon.wxss";
 
 .page {
   font-size: 24rpx;
@@ -5,20 +7,23 @@
   box-sizing: border-box;
   line-height: 1;
   background: #fff;
+  overflow: hidden;
 }
 
 button::after {
   border: 0;
 }
 
-.nomore, .nodata {
+.nomore,
+.nodata {
   padding: 30rpx 0;
   text-align: center;
   color: #bbb;
   font-size: 24rpx;
 }
 
-.nomore.tabbar, .nodata.tabbar {
+.nomore.tabbar,
+.nodata.tabbar {
   padding-bottom: 140rpx;
 }
 
@@ -28,17 +33,17 @@ button::after {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .friendly-nodata .img {
-  width: 500rpx;
-  height: 500rpx;
+  width: 200rpx;
+  height: 200rpx;
 }
 
 .friendly-nodata .title {
   font-size: 28rpx;
-  color: #bad2ff;
-  margin-top: -100rpx;
+  color: #ADADFF;
 }
 
 .tabbar-page {
@@ -69,7 +74,8 @@ button::after {
 }
 
 .navigator-hover {
-  pointer-events: none; /* 点击事件直接穿透到下层元素，即跳过这个链接或者按钮 */
+  pointer-events: none;
+  /* 点击事件直接穿透到下层元素，即跳过这个链接或者按钮 */
   opacity: 0.8;
 }
 
@@ -111,17 +117,20 @@ button::after {
   max-width: 100%;
   vertical-align: bottom;
 }
+
 /* 富文本 end */
 
 /* 超出省略 start */
-.one-line-ellipsis, .page view.one-line-ellipsis {
+.one-line-ellipsis,
+.page view.one-line-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
   white-space: nowrap;
 }
 
-.two-line-ellipsis, .page view.two-line-ellipsis {
+.two-line-ellipsis,
+.page view.two-line-ellipsis {
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -130,6 +139,7 @@ button::after {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
 /* 超出省略 end */
 
 /* 隐藏scroll-view滚动条 start */
@@ -138,6 +148,7 @@ button::after {
   height: 0;
   color: transparent;
 }
+
 /* 隐藏scroll-view滚动条 end */
 
 /* 打开授权菜单 start */
@@ -168,7 +179,7 @@ button::after {
   padding: 47rpx 30rpx;
 }
 
-.setting-box .os-box > view {
+.setting-box .os-box>view {
   text-align: center;
   margin-bottom: 20rpx;
   font-size: 26rpx;
@@ -194,6 +205,7 @@ button::after {
 .setting-box .set_btn:active {
   opacity: 0.8;
 }
+
 /* 打开授权菜单 end */
 
 /* 整页富文本 start */
@@ -201,6 +213,7 @@ button::after {
   padding: 40rpx 24rpx;
   background: #fcfafa;
 }
+
 /* 整页富文本 end */
 
 /* 地址选择 start */
@@ -256,11 +269,9 @@ button::after {
   color: #333;
 }
 
-.address-choose .info .top .nickname {
-}
+.address-choose .info .top .nickname {}
 
-.address-choose .info .top .tel {
-}
+.address-choose .info .top .tel {}
 
 .address-choose .info .detail {
   margin-top: 17.5rpx;
@@ -281,6 +292,7 @@ button::after {
   margin-left: 68rpx;
   align-self: center;
 }
+
 /* 地址选择 end */
 
 /* 退款/评论框 start */
@@ -344,4 +356,5 @@ button::after {
 .rmodal .btn-box .confirm {
   color: #4888fb;
 }
+
 /* 退款/评论框 end */

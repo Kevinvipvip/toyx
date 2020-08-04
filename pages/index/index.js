@@ -10,14 +10,13 @@ Page({
     jianhuo_list: [],
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
 
-    date: ''
+    page: 1
   },
   onLoad: function () {
-    setInterval(() => {
-      this.setData({
-        date: utils.date_format(new Date(), 'yyyy年MM月dd日 q季度 hh:mm:ss')
-      });
-    }, 1000);
+    console.log(app.user_data)
+    this.slideList();
+    this.cateList();
+    this.newRecommendList();
     // if (app.globalData.userInfo) {
     //   this.setData({
     //     userInfo: app.globalData.userInfo,
@@ -27,11 +26,6 @@ Page({
     //   // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
     //   // 所以此处加入 callback 以防止这种情况
     //   app.userInfoReadyCallback = res => {
-    this.setData({
-      slide_list: app.jia_data.slides,
-      cate_list: app.jia_data.cate_list,
-      jianhuo_list: app.jia_data.shop
-    })
     // this.setData({
     //   userInfo: res.userInfo,
     //   hasUserInfo: true
@@ -50,7 +44,91 @@ Page({
     //   })
     // }
   },
+  // 获取首页轮播图
+  slideList(complete) {
+    app.ajax('api/slideList', null, res => {
+      app.aliyun_format(res);
+      this.setData({
+        slide_list: res
+      });
+    }, null, () => {
+      if (complete) {
+        complete();
+      }
+    });
+  },
+  // 商品分类列表
+  cateList(complete) {
+    app.ajax('api/cateList', {
+      recommed: 1
+    }, res => {
+      app.aliyun_format(res, 'icon');
+      this.setData({
+        cate_list: res
+      });
+    }, null, () => {
+      if (complete) {
+        complete();
+      }
+    });
+  },
 
+  // 新品推荐
+  newRecommendList(complete) {
+    let post = {
+      page: this.data.page,
+      type: 1,
+      perpage: 11
+    };
+
+    this.goodsList(post, res => {
+      // if (res.length === 0) {
+      //   if (this.data.page === 1) {
+      //     this.setData({
+      //       jianhuo_list: [],
+      //       nodata: true,
+      //       nomore: false
+      //     })
+      //   } else {
+      //     this.setData({
+      //       nodata: false,
+      //       nomore: true
+      //     })
+      //   }
+      // } else {
+      this.setData({
+        jianhuo_list: res
+      });
+      // }
+      // this.data.page++;
+    }, () => {
+      if (complete)
+        complete();
+    });
+  },
+
+  // 商品列表
+  goodsList(post, success, complete) {
+    app.ajax('api/goodsList', post, res => {
+      for (let i = 0; i < res.length; i++) {
+        app.aliyun_format(res[i].pics);
+      }
+      success(res);
+    }, null, () => {
+      if (complete) {
+        complete();
+      }
+    });
+  },
+
+  // 去分类页
+  to_cate(e) {
+    app.cate.cate_id = e.currentTarget.dataset.cate_id;
+    app.cate.change = true;
+    wx.switchTab({
+      url: '/pages/sort/sort'
+    });
+  },
   // 去搜索页
   to_search() {
     wx.navigateTo({

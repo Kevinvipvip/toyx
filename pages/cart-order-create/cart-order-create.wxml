@@ -1,0 +1,67 @@
+<view class="full-loading" wx:if="{{full_loading}}">
+  <view class="image"></view>
+</view>
+
+<view class="page">
+  <!-- 地址选择 -->
+  <navigator url="/pages/my-address/my-address?type=2">
+    <view class="address-choose" wx:if="{{tel}}">
+      <image src="/icons/icon_address.png" class="address-icon"></image>
+      <view class="info">
+        <view class="top">
+          <view class="nickname">{{receiver}}</view>
+          <view class="tel">{{tel}}</view>
+        </view>
+        <view class="detail">{{address}}</view>
+      </view>
+      <image src="/icons/icon_right_arrow2.png" class="right-arrow"></image>
+    </view>
+    <view class="address-choose no" wx:else>
+      <image src="/icons/icon_address.png" class="address-icon"></image>
+      <view class="no-default-add">
+        暂无默认收货地址，请添加
+      </view>
+      <image src="/icons/icon_right_arrow2.png" class="right-arrow"></image>
+    </view>
+  </navigator>
+
+  <!-- 商品 -->
+  <view class="pro-info">
+    <view class="pro" wx:for="{{cartList}}" wx:key="id">
+      <view class="pro-main">
+        <image src="{{item.cover}}" mode="aspectFill"></image>
+        <view class="info">
+          <view class="title">
+            <view class="text two-line-ellipsis">{{item.name}}</view>
+            <view class="attr">
+              <view class="text one-line-ellipsis">规格：{{item.attr}}</view>
+            </view>
+          </view>
+          <view class="price-box">
+            <view class="price">{{item.price}}</view>
+            <view class="amount">
+              <image src="/icons/cha.png" class="times"></image>
+              <view class="num">{{item.num}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="carriage">
+        <view class="label">运费</view>
+        <view class="price" wx:if="{{item.carriage > 0 && goods_num < 2}}">{{item.carriage * item.num}}</view>
+        <view class="no-price" wx:else>免运费</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部 -->
+  <view class="order-foot">
+    <view class="total">
+      <view class="label">合计：</view>
+      <view class="price">{{total}}</view>
+    </view>
+    <form bindsubmit="cartToPurchase" class="pay-btn" report-submit>
+      <button form-type="submit" loading="{{purchase_loading}}" >支付</button>
+    </form>
+  </view>
+</view>

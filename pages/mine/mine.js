@@ -9,33 +9,66 @@ Page({
 	},
 
 	onLoad: function (options) {
+		this.guessYouLikeList();
 		this.setData({
 			statusBarHeight: app.config.statusBarHeight,
 			topBarHeight: app.config.topBarHeight,
-			user: app.jia_data.user_data,
-			goods_list: app.jia_data.shop
 		})
 	},
-
-	/**
-	 * 生命周期函数--监听页面初次渲染完成
-	 */
-	onReady: function () {
-
-	},
-
-	/**
-	 * 生命周期函数--监听页面显示
-	 */
 	onShow: function () {
+		this.mydetail();
+	},
+	// 获取个人信息
+	mydetail(complete) {
+		app.set_common(() => {
+			this.setData({
+				user: {
+					id: app.user_data.uid,
+					user_auth: app.user_data.user_auth,
+					nickname: app.user_data.nickname || '',
+					score: app.user_data.score || 0,
+					sex: app.user_data.sex,
+					avatar: app.user_data.avatar||app.config.default_img,
+					tel: app.user_data.tel || '',
+				}
+			});
 
+			if (complete) {
+				complete();
+			}
+		});
+	},
+	auth(e) {
+		if (e.detail.userInfo) {
+			wx.showLoading({
+				title: '授权中',
+				mask: true
+			});
+
+			app.userAuth(res => {
+				console.log(res);
+				wx.hideLoading();
+
+				if (res) {
+					this.mydetail();
+				} else {
+					app.toast('授权失败，请重新授权');
+				}
+			});
+		}
 	},
 
-	/**
-	 * 生命周期函数--监听页面隐藏
-	 */
-	onHide: function () {
 
+	// 其他推荐
+	guessYouLikeList() {
+		app.ajax('my/guessYouLikeList', null, res => {
+			for (let i = 0; i < res.length; i++) {
+				app.aliyun_format(res[i].pics);
+			}
+			this.setData({
+				goods_list: res
+			});
+		});
 	},
 
 	/**
@@ -58,11 +91,21 @@ Page({
 	onReachBottom: function () {
 
 	},
-
-	/**
-	 * 用户点击右上角分享
-	 */
-	onShareAppMessage: function () {
-
+	// 授权获取手机号
+	getPhoneNumber(e) {
+		console.log(e)
+		if (e.detail.iv) {
+			let post = {
+				iv: e.detail.iv,
+				encryptedData: e.detail.encryptedData
+			};
+			app.ajax('login/getPhoneNumber', post, res => {
+				if (res) {
+					this.mydetail();
+				} else {
+					app.toast('授权失败，请重新授权');
+				}
+			});
+		}
 	}
 })

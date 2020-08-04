@@ -60,7 +60,7 @@
 	padding: 0;
 	margin: 0;
 	line-height: 60rpx;
-	background: #475a84;
+	background-color: rgb(173, 173, 255);
 	border-radius: 5rpx;
 	text-align: center;
 	font-size: 32rpx;
@@ -69,10 +69,20 @@
 	font-weight: normal;
 }
 
-.user-box .info .title-line .nickname {
+.user-box .info .title-line .info-cont .nickname {
 	font-size: 28rpx;
 	font-weight: bold;
 	color: #ffffff;
+}
+
+.user-box .info .title-line .info-cont .id-score {
+	margin-top: 20rpx;
+}
+
+.user-box .info .title-line .info-cont .id-score text {
+	margin-right: 20rpx;
+	color: #ffffff;
+	font-size: 28rpx;
 }
 
 /* 我的订单 */
@@ -139,8 +149,16 @@
 	margin: 46rpx 24rpx;
 }
 
-.sign image {
+.sign .sign-url {
 	width: 100%;
+	margin: 0;
+	padding: 0;
+	height: 120rpx;
+}
+
+.sign .sign-url image {
+	width: 100%;
+	height: 100%;
 }
 
 /* 其他推荐 */

@@ -7,10 +7,10 @@
     <view class="car" wx:for="{{cartList}}" wx:key="id">
       <view bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" style="{{item.txtStyle}}" class="car-move">
         <view bindtap="check" data-index="{{index}}" class="check-box">
-          <icon type="success" color="#4981fb" wx:if="{{item.checked}}" />
+          <icon type="success" color="#FBB03B" wx:if="{{item.checked}}" />
           <view class="no-check" wx:if="{{!item.checked}}"></view>
         </view>
-        <image bindtap="to_goods" data-id="{{item.goods_id}}" src="{{item.cover}}" mode="aspectFill" class="cover"></image>
+        <image bindtap="to_goods" data-id="{{item.goods_id}}" src="{{item.cover}}?x-oss-process=image/resize,w_100" mode="aspectFill" class="cover"></image>
         <view class="info">
           <view class="title">
             <view class="text two-line-ellipsis">{{item.name}}</view>
@@ -34,13 +34,13 @@
     </view>
   </view>
   <view class="friendly-nodata" wx:if="{{cartList.length == 0}}">
-    <image src="/images/nodata-goods.png" class="img"></image>
+    <image src="/icons/nodata-goods.png" class="img"></image>
     <view class="title">购物车里啥也没有</view>
   </view>
   <view class="settle" wx:if="{{cartList.length > 0}}">
     <view bindtap="check_all_click" class="check-all">
       <view class="no-check" wx:if="{{!check_all}}"></view>
-      <icon type="success" color="#4981fb" wx:if="{{check_all}}" />
+      <icon type="success" color="#FBB03B" wx:if="{{check_all}}" />
       <view class="all-text">全选</view>
     </view>
     <view class="right">

@@ -1,4 +1,5 @@
-//app.js
+const utils = require('./utils/util');
+const aliyunUploadFile = require("./utils/aliyunUploadFile");
 App({
   onLaunch() {
     wx.getSystemInfo({
@@ -21,9 +22,9 @@ App({
   },
   is_ios: '',
   config: {
-    base_url: 'https://toy.wcip.net',
-    base_api: 'https://toy.wcip.net/api',
-    qiniu_base: 'https://qiniu.sd.wcip.net',
+    base_url: 'https://mp.tjluckytoy.com',
+    base_api: 'https://mp.tjluckytoy.com/mp/',
+    aliyun_base: 'https://testoss.psn.asia/',
     reg: {
       tel: /^1\d{10}$/,
       phone: /\d{3,4}-\d{7,8}/,
@@ -34,17 +35,21 @@ App({
     },
     statusBarHeight: 0,
     topBarHeight: 0,
+    default_img: '/images/default.png'
+  },
+  cate: {
+    cate_id: 0,
+    change: false
   },
   user_data: {
     token: '',
     uid: 0,
     nickname: '',
-    realname: '',
+    score: 0,
     sex: 0, // 0.未知 1.男 2.女
-    user_auth: 0, // 0.用户未授权 1.用户已授权
     avatar: '',
     tel: '',
-    share_auth: 0 // 是否有查看分享的权限
+    user_auth: 0
   },
   mp_update() {
     const updateManager = wx.getUpdateManager();
@@ -104,7 +109,7 @@ App({
     }
 
     wx.request({
-      url: this.my_config.api + path,
+      url: this.config.base_api + path,
       method: 'POST',
       dataType: 'json',
       data: data,
@@ -120,31 +125,6 @@ App({
                 let current_page = current_pages[current_pages.length - 1];
                 wx.redirectTo({
                   url: '/pages/login/login?route=' + encodeURIComponent(current_page.route + this.obj2query(current_page.options))
-                });
-                break;
-              case -7: // 用户未绑定手机号
-                break;
-              case 49:
-                this.toast(res.data.data);
-                break;
-              case 63:
-              case 64:
-                this.modal(res.data.message);
-                break;
-              case -8:
-                // this.modal(res.data.message, () => {
-                wx.redirectTo({
-                  url: '/pages/test2/test2',
-                })
-                // });
-                break;
-              case 87: // 活动已删除
-              case 88: // 创意已删除
-              case 89: // 作品已删除
-                this.modal(res.data.message, () => {
-                  wx.navigateBack({
-                    delta: 1
-                  });
                 });
                 break;
               default:
@@ -173,6 +153,22 @@ App({
     });
   },
 
+  // 获取打开的页面
+  get_page(page_name) {
+    let pages = getCurrentPages();
+    for (let i = 0; i < pages.length; i++) {
+      if (pages[i].route === page_name) {
+        return pages[i];
+      }
+    }
+    return false;
+  },
+  // input绑定page中的数据
+  bind_input(e, page) {
+    page.setData({
+      [e.currentTarget.dataset['name']]: e.detail.value || ''
+    })
+  },
   // 小程序登录获取token
   login(callback, inviter_id) {
     this.get_code(code => {
@@ -182,7 +178,6 @@ App({
       };
 
       this.ajax('login/login', post, (res) => {
-        console.log(res);
         callback(res);
       });
     });
@@ -190,12 +185,99 @@ App({
   get_code(callback) {
     wx.login({
       success(login) {
-        console.log(login.code);
         callback(login.code);
       }
     });
   },
+  // 授权获取用户信息
+  userAuth(callback) {
+    wx.getUserInfo({
+      success: user => {
+        let post = {
+          iv: user.iv,
+          encryptedData: user.encryptedData
+        };
+        this.ajax('login/userAuth', post, () => {
+          callback(true);
+        }, () => {
+          callback(false);
+        });
+      }
+    });
+  },
+  // 设置一些公共信息
+  set_common(complete) {
+    this.ajax('my/mydetail', null, res => {
+      this.aliyun_format(res, 'avatar');
 
+      this.user_data.uid = res.uid;
+      this.user_data.nickname = res.nickname || '';
+      this.user_data.realname = res.realname || '';
+      this.user_data.score = res.score || 0;
+      this.user_data.sex = res.sex;
+      this.user_data.avatar = res.avatar;
+      this.user_data.tel = res.tel || 0;
+      this.user_data.user_auth = res.user_auth || 0;
+    }, null, () => {
+      if (complete) {
+        complete();
+      }
+    });
+  },
+  redirect_or_switch_or_index(route) {
+    if (!route) {
+      wx.switchTab({
+        url: '/pages/index/index'
+      });
+    } else {
+      switch (route) {
+        case 'pages/index/index':
+        case 'pages/sort/sort':
+        case 'pages/my-cart/my-cart':
+        case 'pages/mine/mine':
+          wx.switchTab({
+            url: '/' + route
+          });
+          break;
+        default:
+          wx.redirectTo({
+            url: '/' + route
+          });
+          break;
+      }
+    }
+  },
+  // 富文本处理方法
+  rich_handle(rich) {
+    return rich.replace(/\/ueditor\/php\/upload\//g, this.config.base_url + '/ueditor/php/upload/');
+  },
+  // 处理阿里云图片路径
+  aliyun_format(obj, aliyun_field = 'pic') {
+    if (obj instanceof Array) {
+      if (typeof obj[0] === 'string') {
+        for (let i = 0; i < obj.length; i++) {
+          obj[i] = this.aliyun_empty_or(obj[i]);
+        }
+      } else {
+        for (let i = 0; i < obj.length; i++) {
+          obj[i][aliyun_field] = this.aliyun_empty_or(obj[i][aliyun_field]);
+        }
+      }
+    } else if (typeof obj === 'object') {
+      obj[aliyun_field] = this.aliyun_empty_or(obj[aliyun_field]);
+    } else {
+      return this.aliyun_empty_or(obj);
+    }
+  },
+  aliyun_empty_or(aliyun) {
+    if (aliyun) {
+      if (aliyun.indexOf('https') === 0) {
+        return aliyun;
+      } else {
+        return this.config.aliyun_base + '/' + aliyun;
+      }
+    }
+  },
   /* 内部方法 */
   // 对象转query字符串
   obj2query(obj) {
@@ -207,6 +289,53 @@ App({
       return '';
     } else {
       return '?' + query.substr(0, query.length - 1);
+    }
+  },
+  // 处理图像路径
+  format_img(obj, img_field = 'pic') {
+    if (obj instanceof Array) {
+      if (typeof obj[0] === 'string') {
+        for (let i = 0; i < obj.length; i++) {
+          obj[i] = this.empty_or(obj[i]);
+        }
+      } else {
+        for (let i = 0; i < obj.length; i++) {
+          obj[i][img_field] = this.empty_or(obj[i][img_field]);
+        }
+      }
+    } else if (typeof obj === 'object') {
+      obj[img_field] = this.empty_or(obj[img_field]);
+    } else {
+      return this.empty_or(obj);
+    }
+  },
+  empty_or(img) {
+    if (img) {
+      if (img.indexOf('https') === 0) {
+        return img;
+      } else {
+        return this.config.base_url + '/' + img;
+      }
+    } else {
+      return this.config.default_img;
+    }
+  },
+  // 时间格式化
+  format_time(obj, field, fmt) {
+    if (obj instanceof Array) {
+      for (let i = 0; i < obj.length; i++) {
+        if (fmt) {
+          obj[i][field] = utils.date_format(obj[i][field], fmt);
+        } else {
+          obj[i][field] = utils.date_format(obj[i][field]);
+        }
+      }
+    } else {
+      if (fmt) {
+        obj[field] = utils.date_format(obj[field], fmt);
+      } else {
+        obj[field] = utils.date_format(obj[field]);
+      }
     }
   },
   // 公共跳页方法
@@ -237,47 +366,62 @@ App({
     }
   },
 
+  // 初始化阿里云参数
+  aliyun_init() {
+    this.ajax('upload/getStsToken', null, res => {
+      var options = {
+        key: res.bucket,
+        filename: res.filename,
+        host: 'https://shanhaitest.oss-cn-beijing.aliyuncs.com',
+        securityToken: res.SecurityToken,
+        ossAccessKeyId: res.AccessKeyId,
+        ossAccessKeySecret: res.AccessKeySecret
+      };
+      aliyunUploadFile.init(options);
+    });
+  },
+  // 阿里云上传
+  aliyun_upload(temp_img, callback, err) {
+    aliyunUploadFile.upload(temp_img, res => {
+      callback(res);
+    }, error => {
+      if (err) {
+        err();
+      }
+      console.error('上传阿里云出错: ', error);
+    });
+  },
+  // 选择图片并返回
+  choose_img(count, callback, maxsize = 524288, ext = ['jpg', 'jpeg', 'png', 'gif']) {
+    wx.chooseImage({
+      count: count,
+      sourceType: ['album', 'camera'],
+      success: res => {
+        let over_text;
+        if (maxsize < 1024) {
+          over_text = maxsize + 'B';
+        } else if (maxsize < 1048576) {
+          over_text = Math.floor(maxsize / 1024) + 'KB';
+        } else {
+          over_text = Math.floor(maxsize / 1048576) + 'M';
+        }
 
-  // 假数据
-  jia_data: {
-    slides: [{
-      pic: 'http://static.wcip.net/images/img1.jpg'
-    }, {
-      pic: 'http://static.wcip.net/images/img2.jpg'
-    }],
-    cate_list: [{
-      icon: 'http://static.wcip.net/images/img1.jpg'
-    }, {
-      icon: 'http://static.wcip.net/images/img2.jpg'
-    }, {
-      icon: 'http://static.wcip.net/images/img1.jpg'
-    }, {
-      icon: 'http://static.wcip.net/images/img2.jpg'
-    }],
-    shop: [{
-      id: 1,
-      pics: ['http://static.wcip.net/images/img1.jpg', 'http://static.wcip.net/images/img2.jpg'],
-      name: '卡后即可hi足协杯那几个号阿斯顿',
-      price: '15.35'
-    },{
-      id: 2,
-      pics: ['http://static.wcip.net/images/img2.jpg', 'http://static.wcip.net/images/img1.jpg'],
-      name: '个马晓灿是有米诺阿斯顿勘查局阿斯蒂芬飞机场',
-      price: '50.35'
-    },{
-      id: 3,
-      pics: ['http://static.wcip.net/images/img1.jpg', 'http://static.wcip.net/images/img2.jpg'],
-      name: '卡后即可hi足协杯那几个号阿斯顿',
-      price: '15.35'
-    },{
-      id: 4,
-      pics: ['http://static.wcip.net/images/img2.jpg', 'http://static.wcip.net/images/img1.jpg'],
-      name: '个马晓灿是有米诺阿斯顿勘查局阿斯蒂芬飞机场',
-      price: '50.35'
-    }],
-    user_data:{
-      nickname:'陆剑客',
-      avatar:'http://static.wcip.net/images/header1.jpg'
-    }
+        for (let i = 0; i < res.tempFiles.length; i++) {
+          if (res.tempFiles[i].size > maxsize) {
+            this.modal('选择的图片不能大于' + over_text);
+            return callback(false);
+          }
+
+          res.tempFiles[i].ext = res.tempFiles[i].path.substr(res.tempFiles[i].path.lastIndexOf('.') + 1);
+
+          if (ext.indexOf(res.tempFiles[i].ext) === -1) {
+            this.modal('请上传合法的文件格式');
+            return callback(false);
+          }
+        }
+
+        callback(res.tempFiles);
+      }
+    })
   }
 })

@@ -34,13 +34,14 @@
   width: 12rpx;
   height: 60rpx;
   margin: auto;
-  background: #475a84;
+  background: #FBB03B;
 }
 
 .cate-wrapper .one-level .item.active {
   font-size: 32rpx;
-  color: #475a84;
+  color: #FBB03B;
   background: #fff;
+  font-weight: bold;
 }
 
 .cate-wrapper .two-level {

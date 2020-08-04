@@ -4,6 +4,7 @@ Page({
 		route: ''
 	},
 	onLoad: function (options) {
+		console.log('进来了')
 		if (options.route) {
 			this.data.route = decodeURIComponent(options.route);
 		} else if (options.q) {

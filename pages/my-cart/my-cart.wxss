@@ -259,7 +259,7 @@
 .settle .settle-btn {
   width: 230rpx;
   height: 80rpx;
-  background-image: linear-gradient(90deg, #4796fb 0%, #497cfc 100%);
+  background: #FBB03B;
   border-radius: 40rpx;
   line-height: 80rpx;
   text-align: center;

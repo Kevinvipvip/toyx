@@ -33,8 +33,8 @@ Page({
             }
           }
         } else {
-          this.museumList({
-            // cate_id: this.data.cate_list[this.data.active_index].id,
+          this.goodsList({
+            type: 1,
             perpage: 1000
           }, () => {
             this.setData({
@@ -50,7 +50,8 @@ Page({
       active_index: e.currentTarget.dataset.index
     }, () => {
       if (this.data.active_index == 999999) {
-        this.museumList({
+        this.goodsList({
+          type: 1,
           perpage: 1000
         })
       } else {
@@ -64,7 +65,7 @@ Page({
   // 商品分类列表
   cateList(complete) {
     app.ajax('api/cateList', null, res => {
-      app.qiniu_format(res, 'icon');
+      app.aliyun_format(res, 'icon');
       this.setData({
         cate_list: res
       });
@@ -78,7 +79,7 @@ Page({
   goodsList(post, complete) {
     app.ajax('api/goodsList', post, res => {
       for (let i = 0; i < res.length; i++) {
-        app.qiniu_format(res[i].pics);
+        app.aliyun_format(res[i].pics);
       }
       if (res.length === 0) {
         this.setData({

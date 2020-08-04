@@ -1,0 +1,90 @@
+@import '/styles/address.wxss';
+
+.page {
+  padding-top: 87rpx;
+  padding-bottom: 128rpx;
+  background: #fcfafa;
+}
+
+.form {
+}
+
+.form .form-item:first-child {
+  margin-top: 0;
+}
+
+.form .form-item {
+  padding: 27rpx 24rpx;
+  display: flex;
+  margin-top: 2rpx;
+  align-items: center;
+  background: #fff;
+}
+
+.form-item.add-detail {
+  align-items: flex-start;
+}
+
+.form-item .label {
+  width: 132rpx;
+  font-size: 28rpx;
+  color: #333;
+  flex-shrink: 0;
+}
+
+.form-item.add-detail .label {
+  width: 148rpx;
+  padding-top: 18rpx;
+}
+
+.form-item .right {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.form-item .right input {
+  width: 100%;
+  font-size: 28rpx;
+  /*color: #666;*/
+  color: #333;
+}
+
+.form-item .right input .input-placeholder {
+  color: rgba(51, 51, 51, 0.6);
+}
+
+.form-item .right picker {
+  flex-grow: 1;
+  width: 0;
+}
+
+.form-item .right .right-arrow {
+  width: 18rpx;
+  height: 28rpx;
+  margin-left: 24rpx;
+  flex-shrink: 0;
+}
+
+picker .region {
+  display: flex;
+  align-items: center;
+}
+
+picker .region .text {
+  font-size: 28rpx;
+  flex-grow: 1;
+}
+
+picker .region .placeholder {
+  color: rgba(51, 51, 51, 0.6);
+  font-size: 28rpx;
+  flex-grow: 1;
+}
+
+.form-item .right textarea {
+  min-height: 150rpx;
+  width: 100%;
+  font-size: 28rpx;
+  color: #333;
+}

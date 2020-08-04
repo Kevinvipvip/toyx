@@ -1,0 +1,97 @@
+@import '/styles/address.wxss';
+
+.page {
+  padding-top: 87rpx;
+  padding-bottom: 128rpx;
+  background: #fcfafa;
+}
+
+.address-list {
+}
+
+.address-list .address:first-child {
+  margin-top: 0;
+}
+
+.address-list .address {
+  padding: 40rpx 24rpx 32.5rpx;
+  background: #fff;
+  margin-top: 7rpx;
+}
+
+.address .shang {
+}
+
+.address .shang .top-line {
+  display: flex;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.address .top-line .name {
+  flex-grow: 1;
+}
+
+.address .top-line .tel {
+  flex-shrink: 0;
+  margin-left: 40rpx;
+}
+
+.address .detail {
+  margin-top: 20rpx;
+  font-size: 26rpx;
+  line-height: 39rpx;
+  color: #333333;
+  opacity: 0.6;
+}
+
+.address .operation {
+  margin-top: 24rpx;
+  border-top: 2rpx solid rgba(0, 0, 0, 0.03);
+  padding-top: 18rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.address .operation .default {
+  display: flex;
+  align-items: center;
+}
+
+.address .default .choose {
+  width: 34rpx;
+  height: 34rpx;
+}
+
+.address .default .text {
+  margin-left: 13rpx;
+  font-size: 26rpx;
+  color: #333333;
+  opacity: 0.6;
+}
+
+.address .right {
+  display: flex;
+}
+
+.address .right .op-item {
+  display: flex;
+  align-items: center;
+}
+
+.address .right .op-item .icon {
+  width: 44rpx;
+  height: 44rpx;
+  margin-right: 4rpx;
+}
+
+.address .right .op-item .text {
+  font-size: 26rpx;
+  color: #333333;
+  opacity: 0.6;
+}
+
+.address .right .del {
+  margin-left: 50rpx;
+}

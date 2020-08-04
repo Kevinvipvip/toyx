@@ -1,0 +1,88 @@
+<view class="page">
+  <view class="info-list">
+    <view class="info">
+      <view class="label">头像</view>
+      <view bindtap="up_avatar" class="right">
+        <view class="value">
+          <image src="{{user.avatar}}" class="cover"></image>
+        </view>
+        <image src="/icons/icon_right_arrow.png" class="right-arrow"></image>
+      </view>
+    </view>
+    <view bindtap="show_input" data-input_index="{{0}}" class="info">
+      <view class="label">昵称</view>
+      <view class="right">
+        <view class="value">
+          <view class="text one-line-ellipsis" wx:if="{{user.nickname}}">{{user.nickname}}</view>
+          <view class="placeholder" wx:else>请填写</view>
+        </view>
+        <image src="/icons/icon_right_arrow.png" class="right-arrow"></image>
+      </view>
+    </view>
+    <!-- <view bindtap="show_input" data-input_index="{{1}}" class="info">
+      <view class="label">姓名</view>
+      <view class="right">
+        <view class="value">
+          <view class="text one-line-ellipsis" wx:if="{{user.realname}}">{{user.realname}}</view>
+          <view class="placeholder" wx:else>请填写姓名</view>
+        </view>
+        <image src="/icons/icon_right_arrow.png" class="right-arrow"></image>
+      </view>
+    </view> -->
+    <view class="info">
+      <view class="label">性别</view>
+      <view class="right">
+        <view class="value">
+          <picker bindchange="sex_choose" value="{{sex}}" range="{{sex_list}}" range-key="name">
+            <view class="placeholder" wx:if="{{sex == -1}}">请选择</view>
+            <view class="text" wx:else>{{sex_list[sex].name}}</view>
+          </picker>
+        </view>
+        <image src="/icons/icon_right_arrow.png" class="right-arrow"></image>
+      </view>
+    </view>
+    <!-- <view bindtap="show_input" data-input_index="{{2}}" class="info"> -->
+    <view class="info">
+      <view class="label">手机号</view>
+      <view class="right">
+        <view class="value">
+          <view class="text" wx:if="{{user.tel}}">{{user.secret_tel}}</view>
+          <button bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber" class="placeholder" wx:else>绑定手机号</button>
+        </view>
+        <image src="/icons/icon_right_arrow.png" class="right-arrow"></image>
+      </view>
+    </view>
+  </view>
+
+  <view class="line-btn-box">
+    <button bindtap="modMyInfo" class="new-btn">保存</button>
+  </view>
+
+  <!-- 输入modal -->
+  <view bindtap="hide_input" catchtouchmove class="cu-modal {{show_input ? 'show' : ''}}">
+    <view catchtap class="cu-dialog cmodal succ">
+      <block wx:if="{{input_index == 0}}">
+        <view class="title">请输入昵称</view>
+        <view class="form">
+          <input bindconfirm="confirm" bindinput="bind_input" data-name="input_value" type="text" value="{{input_value}}" maxlength="{{20}}" />
+        </view>
+      </block>
+      <block wx:if="{{input_index == 1}}">
+        <view class="title">请输入姓名</view>
+        <view class="form">
+          <input bindconfirm="confirm" bindinput="bind_input" data-name="input_value" type="text" value="{{input_value}}" maxlength="{{20}}" />
+        </view>
+      </block>
+      <block wx:if="{{input_index == 2}}">
+        <view class="title">请输入电话</view>
+        <view class="form">
+          <input bindconfirm="confirm" bindinput="bind_input" data-name="input_value" type="number" value="{{input_value}}" maxlength="{{11}}" />
+        </view>
+      </block>
+      <view class="btn-box">
+        <button bindtap="hide_input" class="cancel">取消</button>
+        <button bindtap="confirm" class="confirm">确定</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,224 @@
+.page {
+  background: #fcfafa;
+  min-height: 100vh;
+  padding-top: 71rpx;
+  box-sizing: border-box;
+}
+
+.tab {
+  background: #fdfdfd;
+  box-sizing: border-box;
+  height: 71rpx;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.05);
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+}
+
+.tab .tab-item {
+  flex-grow: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.tab .tab-item .text {
+  font-size: 26rpx;
+  line-height: 69rpx;
+  color: #FBB03B;
+  letter-spacing: 1rpx;
+}
+
+.tab .tab-item.active .text {
+  color: #ADADFF;
+  position: relative;
+}
+
+.tab .tab-item.active .text::after {
+  content: '';
+  position: absolute;
+  height: 5rpx;
+  background: #ADADFF;
+  width: calc(100% + 16rpx);
+  bottom: -1rpx;
+  left: -8rpx;
+}
+
+.order-list {
+  padding: 24rpx 24rpx 0;
+}
+
+.order {
+  background: #fff;
+  margin-bottom: 24rpx;
+  padding: 40rpx 24rpx;
+  border-radius: 4rpx;
+  box-shadow: 0 1rpx 76rpx 0 rgba(241, 238, 238, 0.75);
+}
+
+.order:last-child {
+  margin-bottom: 0;
+}
+
+.order-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24rpx;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.05);
+  font-size: 26rpx;
+  letter-spacing: 1rpx;
+}
+
+.order-info .label {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.order-info .text {
+  color: #ADADFF;
+}
+
+.pro-box {
+  margin-top: 24rpx;
+}
+
+.pro:first-child {
+  margin-top: 0;
+}
+
+.pro {
+  display: flex;
+  margin-top: 40rpx;
+}
+
+.pro .pic {
+  width: 200rpx;
+  height: 200rpx;
+  flex-shrink: 0;
+}
+
+.pro .info {
+  flex-grow: 1;
+  margin-left: 25rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pro .shang {
+}
+
+.pro .shang .title {
+  font-size: 28rpx;
+  line-height: 42rpx;
+  color: #3d3737;
+  opacity: 0.9;
+}
+
+.pro .shang .attr {
+  margin-top: 16rpx;
+  color: #000000;
+  opacity: 0.6;
+  font-size: 26rpx;
+}
+
+.pro .xia {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.pro .xia .price::before {
+  content: '￥';
+  color: #000000;
+  opacity: 0.6;
+}
+
+.pro .xia .price {
+  color: #ff3f3f;
+  font-size: 28rpx;
+}
+
+.pro .xia .amount {
+  display: flex;
+  align-items: center;
+}
+
+.pro .amount .times {
+  width: 14rpx;
+  height: 17rpx;
+}
+
+.pro .amount .num {
+  font-size: 24rpx;
+  color: #000000;
+  opacity: 0.8;
+  margin-left: 7rpx;
+}
+
+.order .count {
+  margin-top: 75rpx;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 28rpx;
+}
+
+.order .count .amount {
+  color: #000000;
+  opacity: 0.6;
+}
+
+.order .count .total {
+  margin-left: 50rpx;
+  display: flex;
+}
+
+.order .total .label {
+  color: #333;
+}
+
+.order .total .price::before {
+  content: '￥';
+  color: #000000;
+  opacity: 0.6;
+}
+
+.order .total .price {
+  color: #ff3f3f;
+}
+
+.order .btn-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40rpx;
+}
+
+.order .btn-box button:first-child {
+  margin-left: 0;
+}
+
+.order .btn-box button {
+  padding: 0;
+  margin: 0 0 0 30rpx;
+  min-height: auto;
+  width: 190rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  font-size: 26rpx;
+  border: 2rpx solid #dfdfdf;
+  border-radius: 6rpx;
+  background: #f8f8f8;
+  color: #444;
+}
+
+.order .btn-box .highlight {
+  border-color: #FBB03B;
+  background: #FBB03B;
+  color: #fff;
+}

@@ -1,11 +1,11 @@
 .page {
   background: #f5f5fa;
-  padding-top: 130rpx;
+  padding-top: 80rpx;
 }
 
 .search-box {
   padding: 16rpx 24rpx;
-  background: #fff;
+  background: rgba(251, 176, 59, 0.7);
   position: fixed;
   left: 0;
   top: 0;
@@ -21,7 +21,7 @@
   border-radius: 30rpx;
   display: flex;
   align-items: center;
-  background: #eeeeee;
+  background: #FBB03B;
   border-radius: 30rpx;
 }
 
@@ -33,13 +33,13 @@
 
 .search-box .search {
   flex-grow: 1;
-  color: #666;
+  color: #ffffff;
   height: 100%;
   font-size: 24rpx;
 }
 
 .search-box .search .input-placeholder {
-  color: #666;
+  color: #eeeeee;
 }
 
 .goods-box {
@@ -76,16 +76,16 @@
 }
 
 .goods .info {
-  background: #fff;
-  padding: 24rpx 22rpx 36rpx;
+  padding: 18rpx 0 30rpx;
 }
 
 .goods .info .title {
-  font-size: 34rpx;
-  color: #333;
+  font-size: 26rpx;
+  color: #3f3f3f;
+  text-align: justify;
 }
 
-.goods .info .shop {
+/* .goods .info .shop {
   margin-top: 17rpx;
   padding: 8rpx 20rpx;
   background: #ff3f3f;
@@ -98,17 +98,28 @@
   margin-top: 17rpx;
   color: #999;
   font-size: 24rpx;
+} */
+.goods .info .price-cart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30rpx;
+}
+
+.goods .info .price-cart .icon {
+  width: 32rpx;
+  height: 32rpx;
 }
 
 .goods .info .price::before {
   content: '￥';
-  font-size: 24rpx;
-  color: rgba(0, 0, 0, 0.6);
+  font-size: 28rpx;
+  color: #f04c2d;
   margin-right: 5rpx;
 }
 
 .goods .info .price {
-  margin-top: 27rpx;
-  font-size: 36rpx;
-  color: #ff3f3f;
+  font-size: 28rpx;
+  margin-top: 10rpx;
+  color: #f04c2d;
 }

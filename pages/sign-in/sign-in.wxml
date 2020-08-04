@@ -1,2 +1,38 @@
-<!--pages/sign-in/sign-in.wxml-->
-<text>pages/sign-in/sign-in.wxml</text>
+<view class="container">
+	<view class="sign-in-top">
+		<view class="sign-in-top-text">
+			<text>总积分：{{score}}</text>
+			<view class="text-two">连续签到7天，送海量积分</view>
+		</view>
+	</view>
+	<view class="sign-in-date">
+		<view class="every-day">
+			<block wx:for="{{day_array}}" wx:key="index">
+				<view class="day-item {{item.is_sign_in?'on':''}}">
+					<view class="item-top">
+						<view class="spot"></view>
+						<view class="line"></view>
+					</view>
+					<text>{{item.day}}</text>
+				</view>
+			</block>
+		</view>
+
+		<view class="btn-sign-in" wx:if="{{is_sign}}">今日已签到</view>
+		<view class="btn-sign-in" bindtap="sign_in_now" wx:else>立即签到</view>
+	</view>
+
+	<view class="sign-in-log">
+		<view class="sign-list">
+			<view class="sign-date">签到日期</view>
+			<view class="sign-status">签到状态</view>
+		</view>
+		<view class="sign-list" wx:for="{{sign_in_list}}" wx:key="id">
+			<view class="sign-date">{{item.sign_date}}</view>
+			<view class="sign-status" wx:if='{{item.sign}}'>已签到</view>
+			<view class="sign-status no-sign" wx:else>未签到</view>
+		</view>
+
+	</view>
+
+</view>

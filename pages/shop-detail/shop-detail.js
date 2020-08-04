@@ -28,12 +28,12 @@ Page({
     nodata: false,
     loading: false,
 
-    user_auth: 0
+    user_tel: 0
   },
   onLoad(options) {
     this.data.id = options.id;
     this.setData({
-      user_auth: app.user_data.user_auth
+      user_tel: app.user_data.tel
     });
 
     // // 海报二维码
@@ -53,16 +53,15 @@ Page({
     app.ajax('api/goodsDetail', {
       goods_id: this.data.id
     }, (res) => {
-      app.qiniu_format(res.pics);
-      app.qiniu_format(res, 'avatar');
+      app.aliyun_format(res.pics);
+      app.aliyun_format(res, 'avatar');
 
       this.setData({
         goods: res,
         line_count: Math.ceil(res.name.length / 18)
       });
 
-      let rich_text = res.detail;
-      rich_text = rich_text.replace(/\/ueditor\/php\/upload\//g, app.my_config.base_url + '/ueditor/php/upload/');
+      let rich_text = app.rich_handle(res.detail);
       WxParse.wxParse('rich_text', 'html', rich_text, this);
     });
   },
@@ -202,7 +201,7 @@ Page({
   // 去我的购物车
   to_shop_car() {
     wx.switchTab({
-      url: '/pages/shop-car/shop-car'
+      url: '/pages/my-cart/my-cart'
     });
   },
   // 隐藏参数框
@@ -487,7 +486,7 @@ Page({
           });
         }
       } else {
-        app.qiniu_format(res, 'avatar');
+        app.aliyun_format(res, 'avatar');
         app.time_format(res, 'create_time');
         this.setData({
           comment_list: this.data.comment_list.concat(res)
@@ -533,21 +532,19 @@ Page({
       }
     }
   },
-  // 授权
-  auth(e) {
-    if (e.detail.userInfo) {
-      wx.showLoading({
-        title: '授权中',
-        mask: true
-      });
-
-      app.userAuth(res => {
-        wx.hideLoading();
-
+  // 授权获取手机号
+  getPhoneNumber(e) {
+    console.log(e)
+    if (e.detail.iv) {
+      let post = {
+        iv: e.detail.iv,
+        encryptedData: e.detail.encryptedData
+      };
+      app.ajax('login/getPhoneNumber', post, res => {
         if (res) {
           app.set_common(() => {
             this.setData({
-              user_auth: 1
+              user_tel: res.purePhoneNumber
             });
           });
         } else {

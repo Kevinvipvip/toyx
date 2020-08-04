@@ -1,7 +1,7 @@
 <view class="full-loading" wx:if="{{full_loading}}">
 	<view class="image"></view>
 </view>
-<view class="container">
+<view class="page">
 	<!-- 搜索框 -->
 	<view class="search-box">
 		<view class="white-box">
@@ -13,14 +13,15 @@
 	<!-- 商品列表 -->
 	<view class="goods-box">
 		<view class="goods-list">
-			<navigator url="/pages/shop-detail/shop-detail?id={{item.id}}" class="goods" wx:for="{{goods_list}}">
-				<image src="{{item.pics[0]}}" class="cover"></image>
+			<navigator url="/pages/shop-detail/shop-detail?id={{item.id}}" class="goods" wx:key="item" wx:for="{{goods_list}}">
+				<image src="{{item.pics[0]}}?x-oss-process=image/resize,w_400" class="cover"></image>
 				<view class="info">
-					<view class="title one-line-ellipsis">{{item.name}}</view>
-					<view class="shop one-line-ellipsis">{{item.museum_name}}</view>
-					<view class="desc one-line-ellipsis">{{item.desc}}</view>
-					<view class="price">{{item.price}}</view>
-				</view>
+						<view class="title one-line-ellipsis">{{item.name}}</view>
+						<view class="price-cart">
+							<view class="price">{{item.price}}</view>
+							<image class="icon" src="../../icons/icon-cart.png"></image>
+						</view>
+					</view>
 			</navigator>
 		</view>
 		<!-- nomore/nodata -->

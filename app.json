@@ -1,19 +1,29 @@
 {
   "pages":[
-    "pages/index/index",
     "pages/login/login",
+    "pages/index/index",
     "pages/search/search",
     "pages/sort/sort",
     "pages/my-cart/my-cart",
     "pages/mine/mine",
     "pages/shop-detail/shop-detail",
-    "pages/sign-in/sign-in"
+    "pages/sign-in/sign-in",
+    "pages/my-orders/my-orders",
+    "pages/user-info/user-info",
+    "pages/my-address/my-address",
+    "pages/address-detail/address-detail",
+    "pages/refund-list/refund-list",
+    "pages/about/about",
+    "pages/cart-order-create/cart-order-create",
+    "pages/poster/poster",
+
+    "pages/test/test"
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#FBB03B",
     "navigationBarTitleText": "同缘兴",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle":"white"
   },
   "tabBar":{
     "color":"#999999",
