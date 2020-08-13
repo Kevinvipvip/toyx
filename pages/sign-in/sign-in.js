@@ -8,42 +8,42 @@ Page({
    */
   data: {
     day_array: [{
-      day: '第1天',
+      day: '1天',
       is_sign_in: false
     }, {
-      day: '第2天',
+      day: '2天',
       is_sign_in: false
     }, {
-      day: '第3天',
+      day: '3天',
       is_sign_in: false
     }, {
-      day: '第4天',
+      day: '4天',
       is_sign_in: false
     }, {
-      day: '第5天',
+      day: '5天',
       is_sign_in: false
     }, {
-      day: '第6天',
+      day: '6天',
       is_sign_in: false
     }, {
-      day: '第7天',
+      day: '7天',
       is_sign_in: false
     }],
     is_sign: false,
     sign_in_list: [],
-    score: 0
+    score: 0,
+
+    total_days: 0, //连续签到的天数
+
+    days_color: []
+
   },
   onLoad: function (options) {
     this.checkSign();
     this.getSignLog();
     this.setData({
       score: app.user_data.score
-    })
-    // utils.getAdImage(5, (ad) => {
-    //   this.setData({
-    //     sign_in_role: ad.pic
-    //   })
-    // });
+    });
   },
 
 
@@ -63,39 +63,44 @@ Page({
     };
 
     app.ajax('my/signLog', post, (res) => {
-      // let calendar = [],
-      //   calendar_item = {};
-      // for (let i = 0; i < res.length; i++) {
-      //   res[i].year = parseInt(res[i].sign_date.substr(0, 4));
-      //   res[i].month = parseInt(res[i].sign_date.substr(5, 2));
-      //   res[i].day = parseInt(res[i].sign_date.substr(8, 2));
-      //   setTimeout(() => {
-      //     let now_year = res[i].year
-      //     if (res[i].year === now_year) {
-      //       calendar_item.year = res[i].year
-      //       calendar_item.date = res
-      //     } else {
-      //       calendar_item.year = now_year
-      //       calendar_item.date = res
-      //     }
-      //   }, 50);
-      // }
-      // calendar.push(calendar_item);
+      let calendar = [],
+        now_month = new Date().getMonth() + 1;
+      for (let i = 0; i < res.length; i++) {
+        if (parseInt(res[i].sign_date.substr(5, 2)) === now_month) {
+          if (res[i].sign) {
+            calendar.push({
+              month: 'current',
+              day: res[i].sign_date.substr(8, 2),
+              color: '#ffffff',
+              background: '#fbab3b'
+            });
+          } else {
+            calendar.push({
+              month: 'current',
+              day: res[i].sign_date.substr(8, 2),
+              color: '#333333',
+              background: 'transparent'
+            });
+          }
+        }
+      }
+      // console.log(res)
       // console.log(calendar)
       this.setData({
-        sign_in_list: res
+        days_color: calendar
       })
     });
   },
 
   /**
-   * 点击立即签到按钮触发时间
+   * 点击立即签到按钮触发事件
    */
   sign_in_now() {
     let post = {
       token: app.user_data.token
     };
     app.ajax('my/checkin', post, (res) => {
+      console.log(res);
       if (res.days === 7) {
         app.modal(res.desc, () => {
           for (let i = 0; i < res.days; i++) {
@@ -113,6 +118,7 @@ Page({
           }
           this.getSignLog();
           this.setData({
+            total_days: res.days,
             day_array: this.data.day_array,
             is_sign: true
           });
@@ -174,6 +180,7 @@ Page({
         this.data.day_array[i].is_sign_in = true;
       }
       this.setData({
+        total_days: res.days,
         day_array: this.data.day_array,
         is_sign: res.today
       });

@@ -1,48 +1,44 @@
 //index.js
 //获取应用实例
 const app = getApp()
-const utils = require('../../utils/util');
 
 Page({
   data: {
     slide_list: [],
     cate_list: [],
     jianhuo_list: [],
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-
+    loading: false,
     page: 1
   },
   onLoad: function () {
-    console.log(app.user_data)
-    this.slideList();
-    this.cateList();
-    this.newRecommendList();
-    // if (app.globalData.userInfo) {
-    //   this.setData({
-    //     userInfo: app.globalData.userInfo,
-    //     hasUserInfo: true
-    //   })
-    // } else if (this.data.canIUse){
-    //   // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-    //   // 所以此处加入 callback 以防止这种情况
-    //   app.userInfoReadyCallback = res => {
-    // this.setData({
-    //   userInfo: res.userInfo,
-    //   hasUserInfo: true
-    // })
-    //   }
-    // } else {
-    //   // 在没有 open-type=getUserInfo 版本的兼容处理
-    //   wx.getUserInfo({
-    //     success: res => {
-    //       app.globalData.userInfo = res.userInfo
-    //       this.setData({
-    //         userInfo: res.userInfo,
-    //         hasUserInfo: true
-    //       })
-    //     }
-    //   })
-    // }
+    // this.slideList();
+    // this.cateList();
+    // this.newRecommendList();
+    wx.showLoading({
+      title: '加载中',
+    })
+    let promise1 = new Promise(resolve => {
+      this.slideList(() => {
+        resolve();
+      });
+    });
+
+    let promise2 = new Promise(resolve => {
+      this.cateList(() => {
+        resolve();
+      });
+    });
+
+    let promise3 = new Promise(resolve => {
+      this.newRecommendList(() => {
+        resolve();
+      });
+    });
+    Promise.all([
+      promise1, promise2, promise3,
+    ]).then(() => {
+      wx.hideLoading()
+    });
   },
   // 获取首页轮播图
   slideList(complete) {
@@ -60,7 +56,7 @@ Page({
   // 商品分类列表
   cateList(complete) {
     app.ajax('api/cateList', {
-      recommed: 1
+      recommend: 1
     }, res => {
       app.aliyun_format(res, 'icon');
       this.setData({
@@ -82,25 +78,9 @@ Page({
     };
 
     this.goodsList(post, res => {
-      // if (res.length === 0) {
-      //   if (this.data.page === 1) {
-      //     this.setData({
-      //       jianhuo_list: [],
-      //       nodata: true,
-      //       nomore: false
-      //     })
-      //   } else {
-      //     this.setData({
-      //       nodata: false,
-      //       nomore: true
-      //     })
-      //   }
-      // } else {
       this.setData({
         jianhuo_list: res
       });
-      // }
-      // this.data.page++;
     }, () => {
       if (complete)
         complete();
@@ -147,5 +127,50 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
-  }
+  },
+
+  // 下拉刷新
+  onPullDownRefresh() {
+    if (!this.data.loading) {
+      this.data.loading = true;
+
+      this.data.page = 1;
+      this.data.jianhuo_list = [];
+
+      let promise1 = new Promise(resolve => {
+        this.slideList(() => {
+          resolve();
+        });
+      });
+
+      let promise2 = new Promise(resolve => {
+        this.cateList(() => {
+          resolve();
+        });
+      });
+
+      let promise3 = new Promise(resolve => {
+        this.newRecommendList(() => {
+          resolve();
+        });
+      });
+
+      wx.showNavigationBarLoading();
+      Promise.all([
+        promise1, promise2, promise3
+      ]).then(() => {
+        this.data.loading = false;
+        wx.hideNavigationBarLoading();
+        wx.stopPullDownRefresh();
+      });
+    }
+  },
+
+  // 分享
+  onShareAppMessage() {
+    wx.showShareMenu();
+    // return {
+    //   path: app.share_path()
+    // };
+  },
 })

@@ -99,6 +99,8 @@ image {
 
 image {
 	max-width: 100%;
+	width: 44rpx;
+	height: 44rpx;
 	display: inline-block;
 	position: relative;
 	z-index: 0;

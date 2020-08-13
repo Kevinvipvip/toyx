@@ -8,8 +8,6 @@ Page({
     cate_list: [], // 商品分类
     goods_list: [], // 商品列表
 
-    museum_list: [], //博物馆列表
-
     nodata: false
   },
   onShow() {
@@ -33,14 +31,25 @@ Page({
             }
           }
         } else {
-          this.goodsList({
-            type: 1,
-            perpage: 1000
-          }, () => {
-            this.setData({
-              full_loading: false
-            });
-          })
+          if (this.data.active_index === 999999) {
+            this.goodsList({
+              type: 1,
+              perpage: 1000
+            }, () => {
+              this.setData({
+                full_loading: false
+              });
+            })
+          } else {
+            this.goodsList({
+              cate_id: this.data.cate_list[this.data.active_index].id,
+              perpage: 1000
+            }, () => {
+              this.setData({
+                full_loading: false
+              });
+            })
+          }
         }
       });
     });
@@ -89,29 +98,6 @@ Page({
       } else {
         this.setData({
           goods_list: res,
-          nodata: false
-        });
-      }
-    }, null, () => {
-      if (complete) {
-        complete();
-      }
-    });
-  },
-  museumList(post, complete) {
-    app.ajax('api/museumList', post, res => {
-      // for (let i = 0; i < res.length; i++) {
-      // }
-      app.qiniu_format(res, 'cover');
-      console.log(res)
-      if (res.length === 0) {
-        this.setData({
-          museum_list: [],
-          nodata: true
-        });
-      } else {
-        this.setData({
-          museum_list: res,
           nodata: false
         });
       }

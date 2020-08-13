@@ -1,119 +1,124 @@
 <view class="full-loading" wx:if="{{full_loading}}">
-  <view class="image"></view>
+	<view class="image"></view>
 </view>
 
 <view class="page">
-  <view class="poster">
-    <image src="/icons/share-header.png" class="cover"></image>
-    <button bindtap="show_poster" class="create-poster">邀请好友</button>
-  </view>
+	<view class="poster">
+		<image src="/images/poster-top.png" class="cover"></image>
+		<button bindtap="show_poster" class="create-poster">邀请好友</button>
+	</view>
 
-  <view class="invite-box">
-    <view class="rule">{{rule}}</view>
-    <view class="title">邀请列表({{invite_list.length}})</view>
-    <view class="invite-list">
-      <view class="invite hd">
-        <view class="hd-box">头像</view>
-        <view class="nickname">昵称</view>
-        <view class="date">邀请时间</view>
-        <view class="price one-line-ellipsis">获得积分</view>
-        <!-- <view class="detail">详情</view> -->
-      </view>
-      <view class="invite" wx:for="{{invite_list}}" wx:key="uid">
-        <view class="hd-box">
-          <image src="{{item.avatar}}" class="header"></image>
-        </view>
-        <view class="nickname one-line-ellipsis">{{item.nickname?item.nickname:'未授权'}}</view>
-        <view class="date">{{item.create_time}}</view>
-        <view class="price one-line-ellipsis">{{item.score}}</view>
-        <!-- <view class="detail">
-          <button bindtap="show_modal" data-index="{{index}}" size="mini">查看</button>
-        </view> -->
-      </view>
-      <view class="invite">
-        <view class="total">
-          <view class="label">总计：</view>
-          <view class="price">{{total}}</view>
-        </view>
-      </view>
-    </view>
-  </view>
+	<view class="invite-box">
+		<view class="invite-cont">
+			<view class="title">
+				<image src="/icons/poster-title.png" class="cover"></image>
+				<text>邀请记录</text>
+			</view>
+			<view class="invite-list">
+				<!-- <view class="invite hd">
+					<view class="hd-box">头像</view>
+					<view class="nickname">昵称</view>
+					<view class="date">邀请时间</view>
+					<view class="price one-line-ellipsis">获得积分</view>
+					<view class="detail">详情</view>
+				</view> -->
+				<view class="invite" wx:for="{{invite_list}}" wx:key="uid">
+					<view class="invite-left">
+						<view class="hd-box">
+							<image src="{{item.avatar}}" class="header"></image>
+						</view>
+						<view class="invite-name">
+							<view class="nickname one-line-ellipsis">{{item.nickname?item.nickname:'用户'+(index+1)}}</view>
+							<view class="date">{{item.create_time}}</view>
+						</view>
+					</view>
+					<view class="price">消费￥{{item.spend}}元</view>
+				</view>
+				<!-- <view class="invite">
+					<view class="total">
+						<view class="label">总计：</view>
+						<view class="price">{{total}}</view>
+					</view>
+				</view> -->
+			</view>
+		</view>
+	</view>
 
-  <view class="modal-wrapper" wx:if="{{modal_show}}">
-    <view class="modal">
-      <view bindtap="hide_modal" class="close">
-        <image src="/icons/delete.png"></image>
-      </view>
+	<view class="modal-wrapper" wx:if="{{modal_show}}">
+		<view class="modal">
+			<view bindtap="hide_modal" class="close">
+				<image src="/icons/delete.png"></image>
+			</view>
 
-      <view class="content">
-        <view class="invitee">
-          <image src="{{person.avatar}}" class="header"></image>
-          <view class="info">
-            <view class="info-item">
-              <view class="label">昵称</view>
-              <view class="value nickname">{{person.nickname}}</view>
-            </view>
-            <view class="info-item">
-              <view class="label">注册时间</view>
-              <view class="value date">{{person.create_time}}</view>
-            </view>
-            <view class="info-item">
-              <view class="label">消费</view>
-              <view class="value price">￥{{person.score}}</view>
-            </view>
-          </view>
-        </view>
+			<!-- <view class="content">
+				<view class="invitee">
+					<image src="{{person.avatar}}" class="header"></image>
+					<view class="info">
+						<view class="info-item">
+							<view class="label">昵称</view>
+							<view class="value nickname">{{person.nickname}}</view>
+						</view>
+						<view class="info-item">
+							<view class="label">注册时间</view>
+							<view class="value date">{{person.create_time}}</view>
+						</view>
+						<view class="info-item">
+							<view class="label">消费</view>
+							<view class="value price">￥{{person.score}}</view>
+						</view>
+					</view>
+				</view>
 
-        <view class="ta-title">TA的邀请({{sub_invite_list.length}})</view>
+				<view class="ta-title">TA的邀请({{sub_invite_list.length}})</view>
 
-        <view class="iinvite-box">
-          <view class="iinvite hd">
-            <view class="hd-box">头像</view>
-            <view class="nickname">昵称</view>
-            <view class="date">邀请时间</view>
-            <view class="price">消费</view>
-          </view>
-          <view class="il-wrapper">
-            <scroll-view scroll-y class="iinvite-list" style="height: {{il_height}}px;">
-              <view class="iinvite" wx:for="{{sub_invite_list}}" wx:key="uid">
-                <view class="hd-box">
-                  <image src="{{item.avatar}}" class="header"></image>
-                </view>
-                <view class="nickname">{{item.nickname}}</view>
-                <view class="date">{{item.create_time}}</view>
-                <view class="price">￥{{item.score}}</view>
-              </view>
-            </scroll-view>
-          </view>
-          <view class="iinvite">
-            <view class="total">
-              <view class="label">总计：</view>
-              <view class="price-total">￥{{sub_total}}</view>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-  <canvas canvas-id="poster-canvas" class="canvas poster-canvas"></canvas>
+				<view class="iinvite-box">
+					<view class="iinvite hd">
+						<view class="hd-box">头像</view>
+						<view class="nickname">昵称</view>
+						<view class="date">邀请时间</view>
+						<view class="price">消费</view>
+					</view>
+					<view class="il-wrapper">
+						<scroll-view scroll-y class="iinvite-list" style="height: {{il_height}}px;">
+							<view class="iinvite" wx:for="{{sub_invite_list}}" wx:key="uid">
+								<view class="hd-box">
+									<image src="{{item.avatar}}" class="header"></image>
+								</view>
+								<view class="nickname">{{item.nickname}}</view>
+								<view class="date">{{item.create_time}}</view>
+								<view class="price">￥{{item.score}}</view>
+							</view>
+						</scroll-view>
+					</view>
+					<view class="iinvite">
+						<view class="total">
+							<view class="label">总计：</view>
+							<view class="price-total">￥{{sub_total}}</view>
+						</view>
+					</view>
+				</view>
+			</view> -->
+		</view>
+	</view>
+	<canvas canvas-id="poster-canvas" class="canvas poster-canvas"></canvas>
 
-  <view class="modal-wrapper" wx:if="{{poster_show}}">
-    <view class="modal poster-modal">
-      <view bindtap="hide_poster" class="close">
-        <image src="/icons/delete.png"></image>
-      </view>
+	<view class="modal-wrapper" wx:if="{{poster_show}}">
+		<view class="modal poster-modal">
+			<view bindtap="hide_poster" class="close">
+				<image src="/icons/delete.png"></image>
+			</view>
 
-      <image src="{{poster}}" class="poster-img"></image>
-      <button catchtap="save_poster" class="save-btn">保存</button>
-    </view>
-  </view>
+			<image src="{{poster}}" class="poster-img"></image>
+			<button catchtap="save_poster" class="save-btn">保存</button>
+		</view>
+	</view>
 
-  <view bindtap="hide_set_btn" class="setting-box" wx:if="{{show_set_btn}}">
-    <view class="os-box">
-      <view>
-        请在设置中打开保存图片到相册的权限
-      </view>
-      <button catchtap="hide_set_btn" open-type="openSetting" class="set_btn">打开设置</button>
-    </view>
-  </view>
+	<view bindtap="hide_set_btn" class="setting-box" wx:if="{{show_set_btn}}">
+		<view class="os-box">
+			<view>
+				请在设置中打开保存图片到相册的权限
+			</view>
+			<button catchtap="hide_set_btn" open-type="openSetting" class="set_btn">打开设置</button>
+		</view>
+	</view>
 </view>

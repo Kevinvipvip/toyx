@@ -71,7 +71,7 @@ Page({
       } else {
         let sum;
         for (let i = 0; i < res.length; i++) {
-          app.qiniu_format(res[i].child, 'cover');
+          app.aliyun_format(res[i].child, 'cover');
           switch (res[i].refund_apply) {
             case 1:
               res[i].refund_text = '退款中';

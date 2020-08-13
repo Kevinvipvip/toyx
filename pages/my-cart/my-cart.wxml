@@ -20,7 +20,7 @@
           </view>
           <view class="price-box">
             <view class="price">
-              <view class="pinner">{{item.total_price}}</view>
+              <view class="pinner">{{item.price}}</view>
             </view>
             <view class="add-sub">
               <image bindtap="cartDec" data-id="{{item.id}}" data-index="{{index}}" src="/icons/minus.png" class="sub"></image>

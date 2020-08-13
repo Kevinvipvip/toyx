@@ -49,12 +49,12 @@
 
 	<!-- 签到 -->
 	<view class="sign">
-		<button bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber" class="sign-url" wx:if="{{user.tel == 0}}">
-			<image src="/icons/my-sign.png" mode="widthFix"></image>
-		</button>
-		<navigator url="/pages/sign-in/sign-in" class="sign-url" wx:else>
+		<navigator url="/pages/sign-in/sign-in" class="sign-url" wx:if="{{user.id}}">
 			<image src="/icons/my-sign.png" mode="widthFix"></image>
 		</navigator>
+		<button bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber" class="sign-url" wx:else>
+			<image src="/icons/my-sign.png" mode="widthFix"></image>
+		</button>
 	</view>
 	<!-- 我的服务 -->
 	<view class="menu-box">
@@ -67,24 +67,24 @@
 				</navigator>
 			</view>
 			<view class="mesu-item">
-				<button bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber" class="menu" wx:if="{{user.tel == 0}}">
-					<image src="/icons/my-serivce-address.png" class="icon" mode="widthFix" style="width: 31rpx"></image>
-					<view class="text">收货地址</view>
-				</button>
-				<navigator url="/pages/my-address/my-address" class="menu">
+				<navigator url="/pages/my-address/my-address" class="menu" wx:if="{{user.id}}">
 					<image src="/icons/my-serivce-address.png" class="icon" mode="widthFix" style="width: 31rpx"></image>
 					<view class="text">收货地址</view>
 				</navigator>
+				<button bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber" class="menu" wx:else>
+					<image src="/icons/my-serivce-address.png" class="icon" mode="widthFix" style="width: 31rpx"></image>
+					<view class="text">收货地址</view>
+				</button>
 			</view>
 			<view class="mesu-item">
-				<button bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber" class="menu" wx:if="{{user.tel == 0}}">
-					<image src="/icons/my-service-invit.png" class="icon" mode="widthFix" style="width: 42rpx"></image>
-					<view class="text">我的邀请</view>
-				</button>
-				<navigator url="/pages/poster/poster" class="menu" wx:else>
+				<navigator url="/pages/poster/poster" class="menu" wx:if="{{user.id}}">
 					<image src="/icons/my-service-invit.png" class="icon" mode="widthFix" style="width: 42rpx"></image>
 					<view class="text">我的邀请</view>
 				</navigator>
+				<button bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber" class="menu" wx:else>
+					<image src="/icons/my-service-invit.png" class="icon" mode="widthFix" style="width: 42rpx"></image>
+					<view class="text">我的邀请</view>
+				</button>
 			</view>
 			<view class="mesu-item">
 				<navigator url="/pages/refund-list/refund-list" class="menu">
@@ -120,7 +120,7 @@
 					<view class="title one-line-ellipsis">{{item.name}}</view>
 					<view class="price-cart">
 						<view class="price">{{item.price}}</view>
-						<image class="icon" src="../../icons/icon-cart.png"></image>
+						<!-- <image class="icon" src="../../icons/icon-cart.png"></image> -->
 					</view>
 				</view>
 			</navigator>

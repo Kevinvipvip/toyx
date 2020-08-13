@@ -40,7 +40,7 @@
 						<view class="title one-line-ellipsis">{{item.name}}</view>
 						<view class="price-cart">
 							<view class="price">{{item.price}}</view>
-							<image class="icon" src="../../icons/icon-cart.png"></image>
+							<!-- <image class="icon" src="../../icons/icon-cart.png"></image> -->
 						</view>
 					</view>
 				</navigator>

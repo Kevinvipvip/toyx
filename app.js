@@ -127,6 +127,13 @@ App({
                   url: '/pages/login/login?route=' + encodeURIComponent(current_page.route + this.obj2query(current_page.options))
                 });
                 break;
+              case -7:
+                this.modal(res.data.message, () => {
+                  wx.navigateTo({
+                    url: 'pages/user-info/user-info',
+                  })
+                });
+                break;
               default:
                 if (res.data.message) {
                   this.modal(res.data.message);

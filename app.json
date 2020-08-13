@@ -20,7 +20,8 @@
     "pages/test/test"
   ],
   "window":{
-    "backgroundTextStyle":"light",
+    "backgroundColor": "#fafafa",
+    "backgroundTextStyle":"dark",
     "navigationBarBackgroundColor": "#FBB03B",
     "navigationBarTitleText": "同缘兴",
     "navigationBarTextStyle":"white"
@@ -51,6 +52,12 @@
         "selectedIconPath":"./icons/my-selected.png"
       }
     ]
+  },
+  "plugins": {
+    "calendar": {
+        "version": "1.1.0",
+        "provider": "wx92c68dae5a8bb046"
+    }
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

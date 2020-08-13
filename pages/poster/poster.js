@@ -4,19 +4,18 @@ Page({
   data: {
     full_loading: true,
 
-    rule: '',
     invite_list: [],
     total: '0.00', // 总计
 
-    person: {}, // 被查看邀请列表的人
-    sub_invite_list: [], // TA的邀请记录
-    sub_total: '0.00', // 被查看人总计
+    // person: {}, // 被查看邀请列表的人
+    // sub_invite_list: [], // TA的邀请记录
+    // sub_total: '0.00', // 被查看人总计
 
     poster: '',
     poster_show: false,
 
     il_height: 0, // iinvite-list的高度
-    modal_show: false, // 被邀请人详情
+    // modal_show: false, // 被邀请人详情
     show_set_btn: false,
 
     loading: false
@@ -32,7 +31,6 @@ Page({
       }
 
       this.setData({
-        rule: res.rule,
         invite_list: res.list,
         total: total.toFixed(2),
         full_loading: false
@@ -65,43 +63,43 @@ Page({
     }).exec();
   },
   // 显示被邀请框
-  show_modal(e) {
-    wx.showLoading({
-      title: '查询中...',
-      mask: true
-    });
+  // show_modal(e) {
+  //   wx.showLoading({
+  //     title: '查询中...',
+  //     mask: true
+  //   });
 
-    let index = e.currentTarget.dataset.index;
+  //   let index = e.currentTarget.dataset.index;
 
-    this.setData({
-      person: this.data.invite_list[index]
-    }, () => {
-      this.getInviteList(this.data.person.uid, res => {
-        app.format_time(res.list, 'create_time');
-        app.format_img(res.list, 'avatar');
+  //   this.setData({
+  //     person: this.data.invite_list[index]
+  //   }, () => {
+  //     this.getInviteList(this.data.person.uid, res => {
+  //       app.format_time(res.list, 'create_time');
+  //       app.format_img(res.list, 'avatar');
 
-        let sub_total = 0;
-        for (let i = 0; i < res.list.length; i++) {
-          sub_total += Number(res.list[i].score);
-        }
+  //       let sub_total = 0;
+  //       for (let i = 0; i < res.list.length; i++) {
+  //         sub_total += Number(res.list[i].score);
+  //       }
 
-        this.setData({
-          modal_show: true,
-          sub_invite_list: res.list,
-          sub_total: sub_total.toFixed(2),
-        }, () => {
-          wx.hideLoading();
-          this.set_iL_wh();
-        })
-      })
-    });
-  },
+  //       this.setData({
+  //         modal_show: true,
+  //         sub_invite_list: res.list,
+  //         sub_total: sub_total.toFixed(2),
+  //       }, () => {
+  //         wx.hideLoading();
+  //         this.set_iL_wh();
+  //       })
+  //     })
+  //   });
+  // },
   // 关闭被邀请框
-  hide_modal() {
-    this.setData({
-      modal_show: false
-    });
-  },
+  // hide_modal() {
+  //   this.setData({
+  //     modal_show: false
+  //   });
+  // },
   // 生成海报
   create_poster() {
     let promise1 = new Promise((resolve) => {
@@ -243,7 +241,6 @@ Page({
         }
 
         this.setData({
-          rule: res.rule,
           invite_list: res.list,
           total: total.toFixed(2)
         }, () => {

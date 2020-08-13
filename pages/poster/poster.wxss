@@ -1,136 +1,123 @@
 .page {
   background: #fcfafa;
-  padding-top: 24rpx;
 }
 
 .poster {
-  padding: 50rpx 0;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 24rpx;
-  box-shadow: 0 1rpx 76rpx 0 rgba(241, 238, 238, 0.75);
+  height: 867rpx;
+  position: relative;
 }
 
 .poster .cover {
-  width: 200rpx;
-  height: 200rpx;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
 }
 
 .poster .create-poster {
-  padding: 0 50rpx;
-  margin: 30rpx 0 0;
-  height: 60rpx;
-  line-height: 60rpx;
-  font-size: 26rpx;
-  color: #fff;
-  background: #FBB03B;
-  min-height: auto;
+  position: absolute;
+  bottom: 31rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 70rpx;
+  width: 381rpx;
+  font-size: 32rpx;
+  color: #ee3729;
+  background: #ffc72f;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 10rpx 0 rgba(247, 130, 55, 0.4);
+  border-radius: 35rpx;
 }
 
 .invite-box {
-  margin: 50rpx 24rpx 0;
-  padding: 24rpx;
-  background: #fff;
-  box-shadow: 0 1rpx 76rpx 0 rgba(241, 238, 238, 0.75);
+  min-height: calc(100vh - 867rpx);
+  background: #f8983e;
+  overflow: hidden !important;
 }
 
-.invite-box .rule {
-  border: 2rpx solid #ADADFF;
-  padding: 15rpx;
-  line-height: 1.4;
-  font-size: 26rpx;
-  color: #ADADFF;
-  margin-bottom: 33rpx;
-  opacity: 0.8;
+.invite-box .invite-cont {
+  overflow: hidden;
+  background-color: #ffffff;
+  border-radius: 20rpx 20rpx 0 0;
+  margin: 50rpx 30rpx 0;
+  height: 100%;
+  padding: 0 30rpx 95rpx;
+  min-height: calc(100vh - 917rpx);
 }
 
 .invite-box .title {
-  font-size: 30rpx;
-  color: #FBB03B;
+  font-size: 34rpx;
+  height: 90rpx;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.03);
+  color: #333;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.invite-box .title::before {
-  content: '';
-  width: 6rpx;
-  height: 40rpx;
-  opacity: 0.8;
-  background: #FBB03B;
-  margin-right: 8rpx;
+.invite-box image {
+  width: 27rpx;
+  height: 33rpx;
+  margin-right: 10rpx;
 }
 
 .invite-list {
-  margin-top: 30rpx;
-}
-
-.invite-list .invite:first-child {
-  margin-top: 0;
-}
-
-.invite-list .invite.hd {
-  color: #ADADFF;
-  font-size: 28rpx;
-  border-top: 2rpx solid #ddd;
-  padding-top: 20rpx;
-}
-
-.invite-list .invite.hd .header {
-  height: auto;
-}
-
-.invite-list .invite.hd .price {
-  color: inherit;
+  margin-top: 40rpx;
 }
 
 .invite-list .invite {
   margin-top: 24rpx;
   display: flex;
   align-items: center;
-  border-bottom: 2rpx solid #ddd;
-  padding-bottom: 20rpx;
   justify-content: space-between;
 }
 
-.invite-list .invite > view:first-child {
-  margin-left: 0;
+.invite-list .invite .invite-left {
+  display: flex;
 }
 
-.invite-list .invite > view {
-  text-align: center;
+.invite-list .invite .invite-left {
+  height: 60rpx;
 }
 
-.invite-list .invite > .hd-box {
-  width: 100rpx;
+.invite-list .invite .invite-left .hd-box {
+  width: 60rpx;
 }
 
-.invite-list .invite > .hd-box .header {
-  width: 70rpx;
-  height: 70rpx;
+.invite-list .invite .invite-left .hd-box .header {
+  width: 60rpx;
+  height: 60rpx;
   border-radius: 50%;
 }
 
-.invite-list .invite > .nickname {
-  width: 120rpx;
+.invite-list .invite .invite-left .invite-name {
+  display: flex;
+  height: 100%;
+  flex-flow: column;
+  justify-content: space-around;
+  margin-left: 20rpx;
 }
 
-.invite-list .invite > .date {
-  width: 160rpx;
+.invite-list .invite .invite-left .invite-name .nickname {
+  font-size: 26rpx;
+  color: #333;
 }
 
-.invite-list .invite > .price {
-  width: 120rpx;
-  color: #FBB03B;
+.invite-list .invite .invite-left .invite-name .date {
+  font-size: 22rpx;
+  color: #999;
 }
 
-.invite-list .invite > .detail {
+.invite-list .invite .price {
+  color: #f78237;
+  font-size: 22rpx;
+}
+/* 
+.invite-list .invite>.detail {
   flex-grow: 1;
 }
 
-.invite-list .invite > .detail button {
+.invite-list .invite>.detail button {
   padding: 0 10rpx;
   margin: 0;
   height: 40rpx;
@@ -148,12 +135,11 @@
   font-size: 24rpx;
 }
 
-.invite-list .total .label {
-}
+.invite-list .total .label {}
 
 .invite-list .total .price {
   color: #FBB03B;
-}
+} */
 
 .modal-wrapper {
   position: fixed;
@@ -180,8 +166,8 @@
   bottom: 60rpx;
   background: #fff;
 }
-
-.modal > .content {
+/* 
+.modal>.content {
   padding: 24rpx;
   width: 100%;
   height: 100%;
@@ -208,7 +194,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* font-size: 26rpx; */
 }
 
 .invitee .info .info-item {
@@ -238,23 +223,21 @@
   caption-side: #888;
 }
 
-.invitee .info .value.nickname {
-}
+.invitee .info .value.nickname {}
 
-.invitee .info .value.date {
-}
+.invitee .info .value.date {}
 
 .invitee .info .value.price {
   color: red;
-}
+} */
 
-.content .ta-title {
+/* .content .ta-title {
   border-top: 2rpx dashed #ccc;
   margin-top: 30rpx;
   padding-top: 30rpx;
   font-size: 32rpx;
   padding-bottom: 22rpx;
-}
+} */
 
 .modal .close {
   padding: 10rpx;
@@ -270,7 +253,7 @@
   border: 5rpx solid #fff;
   border-radius: 50%;
 }
-
+/* 
 .iinvite-box {
   flex-grow: 1;
   background: #eee;
@@ -285,8 +268,7 @@
   flex-grow: 1;
 }
 
-.iinvite-list {
-}
+.iinvite-list {}
 
 .iinvite-box .iinvite:first-child {
   margin-top: 0;
@@ -312,18 +294,13 @@
   align-items: center;
   border-bottom: 2rpx solid #ddd;
   padding-bottom: 20rpx;
-}
-
-.iinvite-box .iinvite:last-child {
-  /* border-bottom: 0; */
-  /* padding-bottom: 0; */
-}
-
-.iinvite-box .iinvite > view:first-child {
+} */
+/* 
+.iinvite-box .iinvite>view:first-child {
   margin-left: 0;
 }
 
-.iinvite-box .iinvite > view {
+.iinvite-box .iinvite>view {
   margin-left: 24rpx;
 }
 
@@ -357,12 +334,11 @@
   font-size: 24rpx;
 }
 
-.iinvite-box .total .label {
-}
+.iinvite-box .total .label {}
 
 .iinvite-box .total .price-total {
   color: red;
-}
+} */
 
 .canvas {
   position: fixed;
@@ -399,7 +375,7 @@
   border: 0;
   margin: 0;
   border-radius: 0;
-	background-image: linear-gradient(90deg, #4796fb 0%, #497cfc 100%);
+  background-image: linear-gradient(90deg, #4796fb 0%, #497cfc 100%);
   font-size: 32rpx;
   letter-spacing: 1rpx;
   color: #e6e6e6;

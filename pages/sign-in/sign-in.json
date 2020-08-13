@@ -1,5 +1,7 @@
 {
   "enablePullDownRefresh": true,
   "navigationBarTitleText": "签到",
-  "usingComponents": {}
+  "usingComponents": {
+    "calendar": "plugin://calendar/calendar"
+  }
 }
