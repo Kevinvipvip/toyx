@@ -114,7 +114,8 @@ button::after {
 }
 
 .content-wrapper image {
-  max-width: 100%;
+  width: 100%;
+  min-height: 750rpx;
   vertical-align: bottom;
 }
 

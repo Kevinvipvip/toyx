@@ -106,7 +106,9 @@ Page({
           for (let i = 0; i < res.days; i++) {
             this.data.day_array[i].is_sign_in = true;
           }
+          this.getSignLog();
           this.setData({
+            total_days: res.days,
             day_array: this.data.day_array,
             is_sign: true
           });
