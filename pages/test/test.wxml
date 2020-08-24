@@ -1,3 +1,0 @@
-<!--pages/test/test.wxml-->
-<button bindtap="chose_img">选择图片</button>
-<image src="{{src}}"></image>

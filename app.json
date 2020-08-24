@@ -17,7 +17,8 @@
     "pages/cart-order-create/cart-order-create",
     "pages/poster/poster",
 
-    "pages/test/test"
+    "pages/customer/customer",
+    "pages/customer-tip/customer-tip"
   ],
   "window":{
     "backgroundColor": "#fafafa",

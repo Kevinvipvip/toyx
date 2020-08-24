@@ -1,0 +1,47 @@
+.page {
+
+	background-color: rgb(132, 176, 249);
+}
+
+.cont {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	min-height: 100vh;
+	background-color: rgba(228, 239, 255, 0.8);
+}
+
+.page .icon-box-img {
+	margin: 50rpx 0 30rpx;
+}
+
+.page text {
+	display: block;
+	font-size: 34rpx;
+}
+
+.page navigator {
+	display: block;
+	width: 340rpx;
+	height: 80rpx;
+	background: #446db2;
+	border-radius: 10rpx;
+	padding: 0;
+	margin: 50rpx auto 0;
+	font-weight: normal;
+}
+
+.page navigator.one {
+	margin-top: 100rpx;
+}
+
+.page navigator text {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #84aff9;
+	height: 70rpx;
+	border-radius: 10rpx;
+	font-size: 34rpx;
+	color: #ffffff;
+}

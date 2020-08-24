@@ -1,33 +1,37 @@
-const app = getApp();
+// pages/customer-tip/customer-tip.js
 Page({
 
 	/**
 	 * 页面的初始数据
 	 */
 	data: {
-		src: ''
+		tip_text: ''
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-		app.aliyun_init();
+		console.log(typeof options.tip)
+		switch (parseInt(options.tip)) {
+			case 1:
+				this.setData({
+					tip_text: '信息已提交，静候佳音'
+				});
+				break;
+			case 2:
+				this.setData({
+					tip_text: '修改成功'
+				});
+				break;
+		}
 	},
 
-	chose_img() {
+	/**
+	 * 生命周期函数--监听页面初次渲染完成
+	 */
+	onReady: function () {
 
-		app.choose_img(1, res => {
-			console.log(res)
-			app.aliyun_upload(res[0].path, res => {
-				console.log(res);
-				this.setData({
-					src: app.config.aliyun_base + '/' + res
-				})
-			}, err => {
-				console.log(err);
-			})
-		})
 	},
 
 	/**

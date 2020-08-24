@@ -11,7 +11,7 @@ Page({
     page: 1
   },
   onLoad: function () {
-    // this.slideList();
+    app.mp_update();
     // this.cateList();
     // this.newRecommendList();
     wx.showLoading({

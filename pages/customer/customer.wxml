@@ -1,0 +1,65 @@
+<view class="page" style="background-image: url({{bg_img_src}});">
+
+	<view class="customer-cont">
+		<view class="title">
+			<image src="/images/customer-title.png" mode="widthFix"></image>
+		</view>
+
+		<form class="form" bindsubmit="submit">
+
+			<view class="ipt-box">
+				<label><text class="red">*</text>姓名</label>
+				<view class="input">
+					<input placeholder="请输入您的姓名" value="{{name}}" name="name" maxlength="10"></input>
+				</view>
+			</view>
+			<view class="ipt-box">
+				<label><text class="red">*</text>联系方式<text>{{tel?'（当前手机号为小程序授权获取的微信手机号）':'（微信授权获取手机号）'}}</text></label>
+				<view class="input">
+					<input placeholder="请输入您的手机号" value="{{tel}}" name="tel" type="number" maxlength="11"></input>
+					<button bindgetphonenumber="getPhoneNumber" open-type="getPhoneNumber" class="get-tel"  wx:if="{{!tel}}">获取微信手机号</button>
+				</view>
+			</view>
+			<view class="ipt-box">
+				<label><text class="red">*</text>公司名称</label>
+				<view class="input">
+					<input placeholder="请输入您的公司名称" value="{{c_name}}" name="c_name" maxlength="50"></input>
+				</view>
+			</view>
+			<view class="ipt-box">
+				<label><text class="red">*</text>公司地址</label>
+				<view class="input">
+					<input placeholder="请输入您的公司地址" value="{{c_address}}" maxlength="255" name="c_address"></input>
+				</view>
+			</view>
+
+			<view class="ipt-box">
+				<label>上传图片<text>（上传三视图体验免费打样服务）</text></label>
+				<view class="up-pic">
+          <view class="flex pic-box">
+            <block wx:for="{{pics}}" wx:key="index">
+              <view class="ap-box">
+                <view class="add-pic">
+                  <image class="add-pic" src="{{item.pic}}" data-index="{{index}}" bindload="img_load"></image>
+                  <view class="img-de" data-index="{{index}}" bindtap="img_delete">
+                    <image class="img" src="/icons/close.png"></image>
+                  </view>
+                </view>
+              </view>
+            </block>
+            <view class="add-pic plus" bindtap="up_pics" wx:if="{{pics.length < 9}}">
+              <image src="/icons/camera.png" class="camera"></image>
+            </view>
+            <view class="ap-box vh" wx:for="{{flex_pad}}" wx:key="index" wx:if="{{pics.length < 9}}">
+              <view class="add-pic"></view>
+            </view>
+          </view>
+        </view>
+			</view>
+
+			<button class="btn-submit" form-type="submit"><text>{{submit_text}}</text></button>
+		</form>
+	</view>
+	<!-- <button bindtap="chose_img">选择图片</button> -->
+	<!-- <image src="{{src}}"></image> -->
+</view>

@@ -68,7 +68,6 @@ function uploadFile(filePath, successc, failc) {
 	const accessid = config.ossAccessKeyId;
 	const policyBase64 = getPolicyBase64();
 	const signature = getSignature(policyBase64); //获取签名
-
 	// wx.uploadFile({
 	// 	url: aliyunServerURL, //开发者服务器 url
 	// 	filePath: filePath, //要上传文件资源的路径
@@ -141,7 +140,7 @@ function getPolicyBase64() {
 	const policyText = {
 		"expiration": srcT, //设置该Policy的失效时间，超过这个失效时间之后，就没有办法通过这个policy上传文件了 
 		"conditions": [
-			["content-length-range", 0, 512 * 1024] // 设置上传文件的大小限制,1mb
+			["content-length-range", 0, 1024 * 1024] // 设置上传文件的大小限制,1mb
 		]
 	};
 

@@ -26,7 +26,7 @@ App({
     base_api: 'https://mp.tjluckytoy.com/mp/',
     aliyun_base: 'https://testoss.psn.asia/',
     reg: {
-      tel: /^1\d{10}$/,
+      tel: /^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/,
       phone: /\d{3,4}-\d{7,8}/,
       email: /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/,
       natural: /^([1-9]\d*|0)$/,
@@ -327,6 +327,18 @@ App({
       return this.config.default_img;
     }
   },
+
+  // 格式化上传图片，将http前缀去掉
+  format_up_img(obj) {
+    if (obj instanceof Array) {
+      for (let i = 0; i < obj.length; i++) {
+        obj[i] = obj[i] ? obj[i].replace(this.config.aliyun_base + '/', '') : '';
+      }
+    } else {
+      return obj ? obj.replace(this.config.aliyun_base + '/', '') : '';
+    }
+  },
+
   // 时间格式化
   format_time(obj, field, fmt) {
     if (obj instanceof Array) {
@@ -374,7 +386,7 @@ App({
   },
 
   // 初始化阿里云参数
-  aliyun_init() {
+  aliyun_init(complete) {
     this.ajax('upload/getStsToken', null, res => {
       var options = {
         key: res.bucket,
@@ -385,6 +397,7 @@ App({
         ossAccessKeySecret: res.AccessKeySecret
       };
       aliyunUploadFile.init(options);
+      complete();
     });
   },
   // 阿里云上传
@@ -430,5 +443,13 @@ App({
         callback(res.tempFiles);
       }
     })
-  }
+  },
+  // 创建指定数量元素的数组（flex填充用）
+  null_arr(number, line_number) {
+    let num = (line_number - number % line_number) % line_number;
+
+    let arr = [];
+    arr[num - 1] = null;
+    return arr;
+  },
 })

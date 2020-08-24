@@ -1,0 +1,116 @@
+/* pages/test/test.wxss */
+.page {
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: top;
+	background-color: rgb(132, 176, 249);
+}
+
+.customer-cont {
+	margin: 417rpx 24rpx 55rpx;
+	background-color: rgba(228, 239, 255, 0.8);
+	border-radius: 10rpx;
+	border: solid 4rpx #ffffff;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.customer-cont .title {
+	position: relative;
+	top: -8rpx;
+	height: 110rpx;
+	display: flex;
+	justify-content: center;
+	z-index: 2;
+}
+
+.customer-cont .title image {
+	width: 276rpx;
+}
+
+.customer-cont .form {
+	display: block;
+	margin: 44rpx 39rpx;
+}
+
+.customer-cont .form .ipt-box {
+	margin-bottom: 53rpx;
+}
+
+.customer-cont .form .ipt-box label {
+	font-size: 32rpx;
+	color: #568dec;
+	margin-bottom: 24rpx;
+	display: block;
+}
+
+.customer-cont .form .ipt-box label text {
+	color: #84aff9;
+	font-size: 26rpx;
+}
+
+.customer-cont .form .ipt-box label text.red {
+	color: #ec6b56;
+	font-size: 32rpx;
+}
+
+.customer-cont .form .ipt-box .input {
+	height: 70rpx;
+	background-color: #ffffff;
+	box-shadow: 1rpx 1rpx 0 0 rgba(85, 140, 235, 0.75);
+	border-radius: 2rpx;
+	padding: 0 20rpx;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	position: relative;
+}
+
+.customer-cont .form .ipt-box .input input {
+	width: 100%;
+	height: 100%;
+	font-size: 26rpx;
+	color: #666666;
+}
+
+/* placeholder样式改变 */
+.customer-cont .form .ipt-box .input .input-placeholder {
+	color: #d4d4d4;
+}
+
+.customer-cont .form .ipt-box .input .get-tel {
+	position: absolute;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 24rpx;
+	color: #666666;
+	width: auto;
+	height: 100%;
+	margin: 0;
+	padding: 0 15rpx;
+	border-radius: unset;
+	background-color: #84aff9;
+}
+
+.customer-cont .form .btn-submit {
+	width: 340rpx;
+	height: 80rpx;
+	background: #446db2;
+	border-radius: 10rpx;
+	padding: 0;
+	margin: 78rpx auto 0;
+	font-weight: normal;
+}
+
+.customer-cont .form .btn-submit text {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #84aff9;
+	height: 70rpx;
+	border-radius: 10rpx;
+	font-size: 34rpx;
+	color: #ffffff;
+}
