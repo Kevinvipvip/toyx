@@ -105,6 +105,7 @@ Page({
 					submit_text: '修改',
 					pics: imgs,
 					is_revise: 2,
+					flex_pad: app.null_arr(imgs.length + 1, 3)
 				});
 			}
 		}, null, () => {
@@ -138,7 +139,7 @@ Page({
 			app.ajax('api/cooperation', post, res => {
 				if (res) {
 					console.log(res);
-					wx.navigateTo({
+					wx.redirectTo({
 						url: '/pages/customer-tip/customer-tip?tip=' + this.data.is_revise,
 					})
 				}

@@ -54,7 +54,7 @@ App({
   mp_update() {
     const updateManager = wx.getUpdateManager();
     updateManager.onCheckForUpdate(function (res) {
-      console.log(res.hasUpdate); // 是否有更新
+      // console.log(res.hasUpdate); // 是否有更新
     });
     updateManager.onUpdateReady(function () {
       wx.showModal({

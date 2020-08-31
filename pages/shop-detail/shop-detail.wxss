@@ -417,7 +417,40 @@
   box-sizing: border-box;
   margin-bottom: 24rpx;
   color: rgba(0, 0, 0, 0.8);
+  position: relative;
 }
+
+/* .param-modal .param .param-list>view .radio {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+.param-modal .param .param-list>view .wx-radio-input {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+.param-modal .param .param-list>view radio[checked]::after {
+  content: unset;
+}
+
+.param-modal .param .param-list>view .wx-radio-input.wx-radio-input-checked,
+.param-modal .param .param-list>view .wx-radio-input.wx-radio-input-checked::before,
+.param-modal .param .param-list>view .wx-radio-input.wx-radio-input-checked::after {
+  display: none;
+  height: 0;
+  border: none;
+  width: 0;
+  background: transparent;
+  border-radius: 0;
+  font-size: 0;
+} */
+
 
 .param-modal .param .param-list>view.active {
   color: #2586ff;

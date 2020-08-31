@@ -106,22 +106,26 @@
 			<view class="header">
 				<image src="{{goods.pics[0]}}" class="cover" mode="aspectFill"></image>
 				<view class="info">
-					<view class="goods-name two-line-ellipsis">{{goods.name}} {{goods.attr_list[attr_index].value}}</view>
-					<view class="price">{{goods.use_attr == 1 ? goods.attr_list[attr_index].price : goods.price}}</view>
+					<view class="goods-name two-line-ellipsis">{{goods.name}}</view>
+					<view class="price">{{goods.use_attr == 1 ? goods.change_price : goods.price}}</view>
 				</view>
 			</view>
 			<view class="param" wx:if="{{goods.use_attr == 1}}">
-				<view class="param-name">
-					{{goods.attr}}
-				</view>
-				<view class="param-list">
-					<view bindtap="attr_choose" data-index="{{index}}" class="{{attr_index == index ? 'active' : ''}} {{item.stock == 0 ? 'disabled' : ''}}" wx:for="{{goods.attr_list}}" wx:key="id">{{item.value}}</view>
-				</view>
+
+				<block wx:for="{{goods.attr_detail}}" wx:key="id" wx:for-index='index_one'>
+					<view class="param-name">
+						{{item.title}}
+					</view>
+					<view class="param-list" data-findex="{{index}}">
+						<view bindtap="attr_choose" data-index_two="{{index_two}}" data-index_one="{{index_one}}" class="{{item.checked? 'active' : ''}} {{item.stock == 0 ? 'disabled' : ''}}" wx:for="{{item.list}}" wx:for-index='index_two' wx:key="index">{{item.title}}</view>
+					</view>
+				</block>
+
 			</view>
 			<view class="amount-block">
 				<view class="title">购买数量</view>
 				<view class="xia-box">
-					<view class="stock">剩余{{goods.use_attr == 1 ? goods.attr_list[attr_index].stock : goods.stock}}件</view>
+					<view class="stock">剩余{{goods.use_attr == 1 ? goods.change_stock : goods.stock}}件</view>
 					<view class="add-sub">
 						<image bindtap="sub" src="/icons/minus.png" class="sub"></image>
 						<view class="num">{{amount}}</view>

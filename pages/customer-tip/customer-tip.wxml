@@ -3,7 +3,7 @@
 		<icon class="icon-box-img" type="success" size="70"></icon>
 		<text>{{tip_text}}</text>
 
-		<navigator url="/pages/customer/customer" class="one"><text>返回修改</text></navigator>
+		<navigator url="/pages/customer/customer" open-type="redirect" class="one"><text>返回修改</text></navigator>
 		<navigator url="/pages/index/index" open-type="switchTab"><text>前往小程序</text></navigator>
 	</view>
 

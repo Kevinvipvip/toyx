@@ -13,7 +13,7 @@ Page({
     add_loading: false, // 加入购物车loading
     attr_show: false,
     attr_active: false,
-    attr_index: 0, // 选中的参数索引，默认为第一个
+    attr_id: 0, // 选中的规格id
     buy_type: 1, // 1.购买 2.购物车
     amount: 0, // 购买数量
 
@@ -28,7 +28,16 @@ Page({
     nodata: false,
     loading: false,
 
-    user_tel: 0
+    user_tel: 0,
+
+    value_index: [],
+    // value_index0: 0,
+    // value_index1: 0,
+    // value_index2: 0,
+    value_index0_checked: false,
+    value_index1_checked: false,
+    value_index2_checked: false
+
   },
   onLoad(options) {
     this.data.id = options.id;
@@ -56,6 +65,24 @@ Page({
       app.aliyun_format(res.pics);
       app.aliyun_format(res, 'avatar');
 
+      // console.log(res.attr_detail);
+      if (res.attr_detail) {
+        for (let i = 0; i < res.attr_detail.length; i++) {
+
+          let attr_arr = [];
+          for (let j = 0; j < res.attr_detail[i].list.length; j++) {
+            let attr = {
+              title: res.attr_detail[i].list[j],
+              checked: false
+            }
+            attr_arr.push(attr);
+          }
+          res.attr_detail[i].list = attr_arr;
+        }
+        res.change_price = res.price;
+        res.change_stock = 0;
+      }
+
       this.setData({
         goods: res,
         line_count: Math.ceil(res.name.length / 18)
@@ -65,6 +92,7 @@ Page({
       WxParse.wxParse('rich_text', 'html', rich_text, this);
     });
   },
+
   // swiper滑动
   swiper_change(e) {
     this.setData({
@@ -85,15 +113,15 @@ Page({
       app.toast('该商品已告罄！');
     } else {
       let amount;
-      if (data.goods.use_attr === 1) {
-        if (data.amount === 0) {
-          amount = data.goods.attr_list[data.attr_index].stock !== 0 ? 1 : 0;
-        } else {
-          amount = data.amount;
-        }
-      } else {
-        amount = data.amount || 1;
-      }
+      // if (data.goods.use_attr === 1) {
+      //   if (data.amount === 0) {
+      //     amount = data.goods.attr_list[data.attr_index].stock !== 0 ? 1 : 0;
+      //   } else {
+      //     amount = data.amount;
+      //   }
+      // } else {
+      amount = data.amount || 1;
+      // }
 
       this.setData({
         attr_show: true,
@@ -114,15 +142,18 @@ Page({
       app.toast('该商品已告罄！');
     } else {
       let amount;
-      if (data.goods.use_attr === 1) {
-        if (this.data.amount === 0) {
-          amount = data.goods.attr_list[data.attr_index].stock !== 0 ? 1 : 0;
-        } else {
-          amount = data.amount;
-        }
-      } else {
-        amount = data.amount || 1;
-      }
+      // if (data.goods.use_attr === 1) {
+      //   if (this.data.value_index0_checked && this.data.value_index1_checked && this.data.value_index2_checked) {
+      //     if (this.data.amount === 0) {
+      //       // amount = data.goods.change_stock !== 0 ? 1 : 0;
+      //       amount = 1;
+      //     } else {
+      //       amount = data.amount;
+      //     }
+      //   }
+      // } else {
+      amount = data.amount || 1;
+      // }
 
       this.setData({
         attr_show: true,
@@ -144,13 +175,15 @@ Page({
         let data = this.data;
         let attr_id;
         if (data.goods.use_attr === 1) {
-          attr_id = data.goods.attr_list[data.attr_index].id;
+          attr_id = data.attr_id;
         } else {
           attr_id = 1;
         }
-        wx.redirectTo({
-          url: '/pages/order-create/order-create?id=' + data.id + '&num=' + data.amount + '&attr_id=' + attr_id
-        })
+        this.estimate_attr(() => {
+          wx.redirectTo({
+            url: '/pages/order-create/order-create?id=' + data.id + '&num=' + data.amount + '&attr_id=' + attr_id
+          })
+        });
       }
     } else {
       if (this.data.amount === 0) {
@@ -166,33 +199,36 @@ Page({
           };
 
           if (data.goods.use_attr === 1) {
-            post.attr_id = data.goods.attr_list[data.attr_index].id;
+            post.attr_id = data.attr_id;
           }
 
-          app.ajax('shop/cartAdd', post, () => {
-            let set_data = {
-              attr_show: false,
-              attr_active: false,
-              attr_index: 0,
-              amount: 0,
-              ['goods.stock']: data.goods.stock - data.amount
-            };
+          console.log(post);
+          this.estimate_attr(() => {
+            app.ajax('shop/cartAdd', post, () => {
+              let set_data = {
+                attr_show: false,
+                attr_active: false,
+                attr_index: 0,
+                amount: 0,
+                ['goods.stock']: data.goods.stock - data.amount
+              };
 
-            if (data.goods.use_attr === 1) {
-              set_data['goods.attr_list[' + data.attr_index + '].stock'] = data.goods.attr_list[data.attr_index].stock - data.amount;
-            }
+              if (data.goods.use_attr === 1) {
+                set_data['goods.change_stock'] = data.goods.change_stock - data.amount;
+              }
 
-            this.setData(set_data);
-            app.toast('已加入购物车~', 2000, 'success');
+              this.setData(set_data);
+              app.toast('已加入购物车~', 2000, 'success');
 
-            let shop_page = app.get_page('pages/shop/shop');
-            if (shop_page) {
-              shop_page.cartList();
-            }
-          }, (err) => {
-            app.toast(err.message);
-          }, () => {
-            this.data.add_loading = false;
+              let shop_page = app.get_page('pages/shop/shop');
+              if (shop_page) {
+                shop_page.cartList();
+              }
+            }, (err) => {
+              app.toast(err.message);
+            }, () => {
+              this.data.add_loading = false;
+            });
           });
         }
       }
@@ -215,17 +251,20 @@ Page({
   add() {
     let data = this.data;
     if (data.goods.use_attr === 1) {
-      if (data.amount === data.goods.limit || data.amount === data.goods.attr_list[data.attr_index].stock) {
-        if (data.amount === data.goods.limit) {
-          app.toast('该商品最多限购' + data.goods.limit + '件哦');
+      this.estimate_attr(() => {
+        if (data.amount === data.goods.limit || data.amount === data.goods.change_stock) {
+          if (data.amount === data.goods.limit) {
+            app.toast('该商品最多限购' + data.goods.limit + '件哦');
+          } else {
+            app.toast('已经没有这么多商品了');
+          }
         } else {
-          app.toast('已经没有这么多商品了');
+          this.setData({
+            amount: data.amount + 1
+          });
         }
-      } else {
-        this.setData({
-          amount: data.amount + 1
-        });
-      }
+      });
+
     } else {
       if (data.amount === data.goods.limit || data.amount === data.goods.stock) {
         if (data.amount === data.goods.limit) {
@@ -249,24 +288,189 @@ Page({
       });
     }
   },
-  // 选择参数
-  attr_choose(e) {
-    let index = e.currentTarget.dataset.index;
-    let data = this.data;
-    if (data.goods.attr_list[index].stock === 0) {
-      app.toast('该商品已告罄！');
-    } else if (data.goods.attr_list[index].stock < data.amount) {
-      app.toast('“' + data.goods.attr_list[index].value + '”只有' + data.goods.attr_list[index].stock + '件了');
-      this.setData({
-        amount: data.goods.attr_list[index].stock,
-        attr_index: index
-      });
+  // 规格分组判断
+  estimate_attr(complete) {
+    // console.log(this.data.goods.attr_detail.length);
+    if (this.data.goods.attr_detail) {
+      switch (this.data.goods.attr_detail.length) {
+        case 1:
+          if (this.data.value_index0_checked) {
+            complete();
+          } else {
+            app.toast('请先选择规格后操作');
+            this.data.add_loading = false;
+          }
+          break;
+        case 2:
+          if (this.data.value_index0_checked && this.data.value_index1_checked) {
+            complete();
+          } else {
+            app.toast('请先选择规格后操作');
+            this.data.add_loading = false;
+          }
+          break;
+        case 3:
+          if (this.data.value_index0_checked && this.data.value_index1_checked && this.data.value_index2_checked) {
+            complete();
+          } else {
+            app.toast('请先选择规格后操作');
+            this.data.add_loading = false;
+          }
+          break;
+      }
     } else {
-      this.setData({
-        attr_index: index
-      });
+      complete();
     }
   },
+
+  // 选择参数
+  attr_choose(e) {
+    let index1 = e.currentTarget.dataset.index_one;
+    let index2 = e.currentTarget.dataset.index_two;
+    let data = this.data.goods;
+
+
+    for (let i = 0; i < data.attr_detail[index1].list.length; i++) {
+      if (i === index2) {
+        data.attr_detail[index1].list[i].checked = !data.attr_detail[index1].list[i].checked;
+      } else {
+        data.attr_detail[index1].list[i].checked = false;
+      }
+      switch (index1) {
+        case 0:
+          this.data.value_index[index1] = index2;
+          // this.data.value_index0 = index2;
+          this.data.value_index0_checked = data.attr_detail[0].list[index2].checked;
+          this.search_attr_list(data, index1, i);
+          break;
+        case 1:
+          this.data.value_index[index1] = index2;
+          // this.data.value_index1 = index2;
+          this.data.value_index1_checked = data.attr_detail[1].list[index2].checked;
+          this.search_attr_list(data, index1, i);
+          break;
+        case 2:
+          this.data.value_index[index1] = index2;
+          // this.data.value_index2 = index2;
+          this.data.value_index2_checked = data.attr_detail[2].list[index2].checked;
+          this.search_attr_list(data, index1, i);
+          break;
+      }
+    }
+
+
+
+    // if (data.goods.attr_list[index].stock === 0) {
+    //   app.toast('该商品已告罄！');
+    // } else if (data.goods.attr_list[index].stock < data.amount) {
+    //   app.toast('“' + data.goods.attr_list[index].value + '”只有' + data.goods.attr_list[index].stock + '件了');
+    //   this.setData({
+    //     amount: data.goods.attr_list[index].stock,
+    //     attr_index: index
+    //   });
+    // } else {
+    //   this.setData({
+    //     attr_index: index
+    //   });
+    // }
+  },
+
+
+  // 选择规格组后查找id
+  search_attr_list(obj, detail_index1, detail_index2) {
+    // console.log(detail_index1, detail_index2)
+    let index = '';
+    let that = this;
+
+    switch (obj.attr_detail.length) {
+      case 1:
+        // console.log('1组规格');
+        // index = this.data.value_index0;
+        index = that.data.value_index[0] + '';
+        if (that.data.value_index0_checked) {
+
+          for (let i = 0; i < obj.attr_list.length; i++) {
+            if (obj.attr_list[i].value_index === index) {
+              if (obj.attr_list[i].stock === 0) {
+                app.toast('该商品已告罄！');
+                obj.attr_detail[detail_index1].list[detail_index2].checked = false;
+                that.data.value_index[detail_index1] = undefined;
+                // console.log(that.data.value_index[detail_index1], '111')
+              } else {
+                // console.log(obj.attr_list[i].id);
+                that.data.attr_id = obj.attr_list[i].id;
+                obj.change_price = obj.attr_list[i].price;
+                obj.change_stock = obj.attr_list[i].stock;
+              }
+            }
+          }
+        } else {
+          obj.change_price = obj.price;
+          obj.change_stock = 0;
+        }
+        break;
+      case 2:
+        // console.log('2组规格');
+        // index = this.data.value_index0 + '_' + this.data.value_index1;
+        index = that.data.value_index[0] + '_' + that.data.value_index[1];
+        if (that.data.value_index0_checked && that.data.value_index1_checked) {
+
+          for (let i = 0; i < obj.attr_list.length; i++) {
+            if (obj.attr_list[i].value_index === index) {
+              if (obj.attr_list[i].stock === 0) {
+                app.toast('该商品已告罄！');
+                obj.attr_detail[detail_index1].list[detail_index2].checked = false;
+                that.data.value_index[detail_index1] = undefined;
+                // console.log(that.data.value_index[detail_index1], '111')
+              } else {
+                // console.log(obj.attr_list[i].id);
+                that.data.attr_id = obj.attr_list[i].id;
+                obj.change_price = obj.attr_list[i].price;
+                obj.change_stock = obj.attr_list[i].stock;
+              }
+            }
+          }
+        } else {
+          obj.change_price = obj.price;
+          obj.change_stock = 0;
+        }
+        break;
+      case 3:
+        // console.log('3组规格');
+        // index = this.data.value_index0 + '_' + this.data.value_index1 + '_' + this.data.value_index2;
+        index = that.data.value_index[0] + '_' + that.data.value_index[1] + '_' + that.data.value_index[2];
+        if (that.data.value_index0_checked && that.data.value_index1_checked && that.data.value_index2_checked) {
+
+          for (let i = 0; i < obj.attr_list.length; i++) {
+            if (obj.attr_list[i].value_index === index) {
+              if (obj.attr_list[i].stock === 0) {
+                app.toast('该商品已告罄！');
+                obj.attr_detail[detail_index1].list[detail_index2].checked = false;
+                that.data.value_index[detail_index1] = undefined;
+                // console.log(that.data.value_index[detail_index1], '111')
+              } else {
+                // console.log(obj.attr_list[i].id);
+                that.data.attr_id = obj.attr_list[i].id;
+                obj.change_price = obj.attr_list[i].price;
+                obj.change_stock = obj.attr_list[i].stock;
+              }
+            }
+          }
+        } else {
+          obj.change_price = obj.price;
+          obj.change_stock = 0;
+        }
+        break;
+    }
+    // console.log(index);
+    // console.log(obj);
+    this.setData({
+      goods: obj,
+      amount: obj.change_stock === 0 ? obj.change_stock : 1,
+      value_index: this.data.value_index
+    });
+  },
+
   // 去他人主页
   to_person() {
     app.page_open(() => {
