@@ -14,20 +14,35 @@ Page({
     this.cateList(() => {
       wx.nextTick(() => {
         if (app.cate.change) {
-          this.goodsList({
-            cate_id: app.cate.cate_id,
-            perpage: 1000
-          }, () => {
-            this.setData({
-              full_loading: false
-            });
-          });
-          for (let i = 0; i < this.data.cate_list.length; i++) {
-            if (this.data.cate_list[i].id === app.cate.cate_id) {
+          if (app.cate.cate_id === 999999) {
+            this.goodsList({
+              type: 1,
+              perpage: 1000
+            }, () => {
               this.setData({
-                active_index: i
+                full_loading: false
               });
-              app.cate.change = false;
+            })
+            this.setData({
+              active_index: 999999
+            });
+            app.cate.change = false;
+          } else {
+            this.goodsList({
+              cate_id: app.cate.cate_id,
+              perpage: 1000
+            }, () => {
+              this.setData({
+                full_loading: false
+              });
+            });
+            for (let i = 0; i < this.data.cate_list.length; i++) {
+              if (this.data.cate_list[i].id === app.cate.cate_id) {
+                this.setData({
+                  active_index: i
+                });
+                app.cate.change = false;
+              }
             }
           }
         } else {

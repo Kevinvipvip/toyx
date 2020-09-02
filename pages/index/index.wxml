@@ -27,9 +27,12 @@
 
 		<view class="title-line">
 			<view class="title">精品推荐</view>
-			<navigator url="/pages/sort/sort" open-type="switchTab" class="more">
+			<!-- <navigator url="/pages/sort/sort" open-type="switchTab" class="more">
 				<view class="text">MORE+</view>
-			</navigator>
+			</navigator> -->
+			<view bindtap="to_cate" data-cate_id="{{999999}}" class="more">
+				<view class="text">MORE+</view>
+			</view>
 		</view>
 		<!-- 精品推荐 -->
 		<view class="goods-box">

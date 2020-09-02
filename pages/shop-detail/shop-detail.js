@@ -13,7 +13,7 @@ Page({
     add_loading: false, // 加入购物车loading
     attr_show: false,
     attr_active: false,
-    attr_id: 0, // 选中的规格id
+    attr_index: 0, // 选中的参数索引，默认为第一个
     buy_type: 1, // 1.购买 2.购物车
     amount: 0, // 购买数量
 
@@ -30,13 +30,13 @@ Page({
 
     user_tel: 0,
 
-    value_index: [],
-    // value_index0: 0,
-    // value_index1: 0,
-    // value_index2: 0,
-    value_index0_checked: false,
-    value_index1_checked: false,
-    value_index2_checked: false
+    attr_detail: [], //当前规格组的选中、有无库存状态
+    attrinfo: {}, //当前选中的规格属性详情
+    value_index0: '', //当前选中的一组规格索引值
+    value_index1: '', //当前选中的二组规格索引值
+    value_index2: '', //当前选中的三组规格索引值
+
+    stock_index_init: []
 
   },
   onLoad(options) {
@@ -65,28 +65,13 @@ Page({
       app.aliyun_format(res.pics);
       app.aliyun_format(res, 'avatar');
 
-      // console.log(res.attr_detail);
-      if (res.attr_detail) {
-        for (let i = 0; i < res.attr_detail.length; i++) {
-
-          let attr_arr = [];
-          for (let j = 0; j < res.attr_detail[i].list.length; j++) {
-            let attr = {
-              title: res.attr_detail[i].list[j],
-              checked: false
-            }
-            attr_arr.push(attr);
-          }
-          res.attr_detail[i].list = attr_arr;
-        }
-        res.change_price = res.price;
-        res.change_stock = 0;
-      }
-
       this.setData({
         goods: res,
+        attrinfo: res,
         line_count: Math.ceil(res.name.length / 18)
       });
+      this.attr_stock_init();
+      this.attr_search_stock();
 
       let rich_text = app.rich_handle(res.detail);
       WxParse.wxParse('rich_text', 'html', rich_text, this);
@@ -113,15 +98,15 @@ Page({
       app.toast('该商品已告罄！');
     } else {
       let amount;
-      // if (data.goods.use_attr === 1) {
-      //   if (data.amount === 0) {
-      //     amount = data.goods.attr_list[data.attr_index].stock !== 0 ? 1 : 0;
-      //   } else {
-      //     amount = data.amount;
-      //   }
-      // } else {
-      amount = data.amount || 1;
-      // }
+      if (data.goods.use_attr === 1) {
+        if (data.amount === 0) {
+          amount = data.goods.attr_list[data.attr_index].stock !== 0 ? 1 : 0;
+        } else {
+          amount = data.amount;
+        }
+      } else {
+        amount = data.amount || 1;
+      }
 
       this.setData({
         attr_show: true,
@@ -142,18 +127,16 @@ Page({
       app.toast('该商品已告罄！');
     } else {
       let amount;
-      // if (data.goods.use_attr === 1) {
-      //   if (this.data.value_index0_checked && this.data.value_index1_checked && this.data.value_index2_checked) {
-      //     if (this.data.amount === 0) {
-      //       // amount = data.goods.change_stock !== 0 ? 1 : 0;
-      //       amount = 1;
-      //     } else {
-      //       amount = data.amount;
-      //     }
-      //   }
-      // } else {
-      amount = data.amount || 1;
-      // }
+      if (data.goods.use_attr === 1) {
+        if (this.data.amount === 0) {
+          amount = data.goods.change_stock !== 0 ? 1 : 0;
+          amount = 1;
+        } else {
+          amount = data.amount;
+        }
+      } else {
+        amount = data.amount || 1;
+      }
 
       this.setData({
         attr_show: true,
@@ -175,7 +158,7 @@ Page({
         let data = this.data;
         let attr_id;
         if (data.goods.use_attr === 1) {
-          attr_id = data.attr_id;
+          attr_id = data.goods.attr_list[data.attr_index].id;
         } else {
           attr_id = 1;
         }
@@ -199,7 +182,7 @@ Page({
           };
 
           if (data.goods.use_attr === 1) {
-            post.attr_id = data.attr_id;
+            post.attr_id = data.goods.attr_list[data.attr_index].id;
           }
 
           console.log(post);
@@ -214,7 +197,8 @@ Page({
               };
 
               if (data.goods.use_attr === 1) {
-                set_data['goods.change_stock'] = data.goods.change_stock - data.amount;
+                set_data['goods.attr_list[' + data.attr_index + '].stock'] = data.goods.attr_list[data.attr_index].stock - data.amount;
+                set_data['attrinfo.stock'] = data.attrinfo.stock - data.amount;
               }
 
               this.setData(set_data);
@@ -252,7 +236,7 @@ Page({
     let data = this.data;
     if (data.goods.use_attr === 1) {
       this.estimate_attr(() => {
-        if (data.amount === data.goods.limit || data.amount === data.goods.change_stock) {
+        if (data.amount === data.goods.limit || data.amount === data.attrinfo.stock) {
           if (data.amount === data.goods.limit) {
             app.toast('该商品最多限购' + data.goods.limit + '件哦');
           } else {
@@ -290,11 +274,11 @@ Page({
   },
   // 规格分组判断
   estimate_attr(complete) {
-    // console.log(this.data.goods.attr_detail.length);
+    console.log(this.data.attr_index)
     if (this.data.goods.attr_detail) {
-      switch (this.data.goods.attr_detail.length) {
+      switch (this.data.goods.attr_group_num) {
         case 1:
-          if (this.data.value_index0_checked) {
+          if (this.data.value_index0.toString()) {
             complete();
           } else {
             app.toast('请先选择规格后操作');
@@ -302,7 +286,7 @@ Page({
           }
           break;
         case 2:
-          if (this.data.value_index0_checked && this.data.value_index1_checked) {
+          if (this.data.value_index0.toString() && this.data.value_index1.toString()) {
             complete();
           } else {
             app.toast('请先选择规格后操作');
@@ -310,7 +294,7 @@ Page({
           }
           break;
         case 3:
-          if (this.data.value_index0_checked && this.data.value_index1_checked && this.data.value_index2_checked) {
+          if (this.data.value_index0.toString() && this.data.value_index1.toString() && this.data.value_index2.toString()) {
             complete();
           } else {
             app.toast('请先选择规格后操作');
@@ -325,150 +309,240 @@ Page({
 
   // 选择参数
   attr_choose(e) {
-    let index1 = e.currentTarget.dataset.index_one;
-    let index2 = e.currentTarget.dataset.index_two;
-    let data = this.data.goods;
+    let current_index = e.currentTarget.dataset;
+    let data = this.data;
+    let attrinfo = "";
+    if (current_index.disabled) {
+      return false;
+    }
+    let value_index = current_index.level1_index;
 
 
-    for (let i = 0; i < data.attr_detail[index1].list.length; i++) {
-      if (i === index2) {
-        data.attr_detail[index1].list[i].checked = !data.attr_detail[index1].list[i].checked;
-      } else {
-        data.attr_detail[index1].list[i].checked = false;
-      }
-      switch (index1) {
-        case 0:
-          this.data.value_index[index1] = index2;
-          // this.data.value_index0 = index2;
-          this.data.value_index0_checked = data.attr_detail[0].list[index2].checked;
-          this.search_attr_list(data, index1, i);
-          break;
-        case 1:
-          this.data.value_index[index1] = index2;
-          // this.data.value_index1 = index2;
-          this.data.value_index1_checked = data.attr_detail[1].list[index2].checked;
-          this.search_attr_list(data, index1, i);
-          break;
-        case 2:
-          this.data.value_index[index1] = index2;
-          // this.data.value_index2 = index2;
-          this.data.value_index2_checked = data.attr_detail[2].list[index2].checked;
-          this.search_attr_list(data, index1, i);
-          break;
-      }
+    switch (current_index.level0_index) {
+      case 0:
+        if (value_index === this.data.value_index0) {
+          value_index = "";
+        }
+        this.setData({
+          value_index0: value_index
+        })
+        break;
+      case 1:
+        if (value_index === this.data.value_index1) {
+          value_index = "";
+        }
+        this.setData({
+          value_index1: value_index
+        })
+        break;
+      case 2:
+        if (value_index === this.data.value_index2) {
+          value_index = "";
+        }
+        this.setData({
+          value_index2: value_index
+        })
+        break;
     }
 
+    this.attr_search_stock();
 
-
-    // if (data.goods.attr_list[index].stock === 0) {
-    //   app.toast('该商品已告罄！');
-    // } else if (data.goods.attr_list[index].stock < data.amount) {
-    //   app.toast('“' + data.goods.attr_list[index].value + '”只有' + data.goods.attr_list[index].stock + '件了');
-    //   this.setData({
-    //     amount: data.goods.attr_list[index].stock,
-    //     attr_index: index
-    //   });
-    // } else {
-    //   this.setData({
-    //     attr_index: index
-    //   });
-    // }
-  },
-
-
-  // 选择规格组后查找id
-  search_attr_list(obj, detail_index1, detail_index2) {
-    // console.log(detail_index1, detail_index2)
-    let index = '';
-    let that = this;
-
-    switch (obj.attr_detail.length) {
+    switch (data.goods.attr_group_num) {
       case 1:
-        // console.log('1组规格');
-        // index = this.data.value_index0;
-        index = that.data.value_index[0] + '';
-        if (that.data.value_index0_checked) {
-
-          for (let i = 0; i < obj.attr_list.length; i++) {
-            if (obj.attr_list[i].value_index === index) {
-              if (obj.attr_list[i].stock === 0) {
-                app.toast('该商品已告罄！');
-                obj.attr_detail[detail_index1].list[detail_index2].checked = false;
-                that.data.value_index[detail_index1] = undefined;
-                // console.log(that.data.value_index[detail_index1], '111')
-              } else {
-                // console.log(obj.attr_list[i].id);
-                that.data.attr_id = obj.attr_list[i].id;
-                obj.change_price = obj.attr_list[i].price;
-                obj.change_stock = obj.attr_list[i].stock;
-              }
-            }
-          }
-        } else {
-          obj.change_price = obj.price;
-          obj.change_stock = 0;
+        if (data.value_index0 !== '') {
+          attrinfo = this.attr_search(data.value_index0);
         }
         break;
       case 2:
-        // console.log('2组规格');
-        // index = this.data.value_index0 + '_' + this.data.value_index1;
-        index = that.data.value_index[0] + '_' + that.data.value_index[1];
-        if (that.data.value_index0_checked && that.data.value_index1_checked) {
-
-          for (let i = 0; i < obj.attr_list.length; i++) {
-            if (obj.attr_list[i].value_index === index) {
-              if (obj.attr_list[i].stock === 0) {
-                app.toast('该商品已告罄！');
-                obj.attr_detail[detail_index1].list[detail_index2].checked = false;
-                that.data.value_index[detail_index1] = undefined;
-                // console.log(that.data.value_index[detail_index1], '111')
-              } else {
-                // console.log(obj.attr_list[i].id);
-                that.data.attr_id = obj.attr_list[i].id;
-                obj.change_price = obj.attr_list[i].price;
-                obj.change_stock = obj.attr_list[i].stock;
-              }
-            }
-          }
-        } else {
-          obj.change_price = obj.price;
-          obj.change_stock = 0;
+        if (data.value_index0 !== '' && data.value_index1 !== '') {
+          attrinfo = this.attr_search(data.value_index0 + '_' + data.value_index1);
         }
         break;
       case 3:
-        // console.log('3组规格');
-        // index = this.data.value_index0 + '_' + this.data.value_index1 + '_' + this.data.value_index2;
-        index = that.data.value_index[0] + '_' + that.data.value_index[1] + '_' + that.data.value_index[2];
-        if (that.data.value_index0_checked && that.data.value_index1_checked && that.data.value_index2_checked) {
-
-          for (let i = 0; i < obj.attr_list.length; i++) {
-            if (obj.attr_list[i].value_index === index) {
-              if (obj.attr_list[i].stock === 0) {
-                app.toast('该商品已告罄！');
-                obj.attr_detail[detail_index1].list[detail_index2].checked = false;
-                that.data.value_index[detail_index1] = undefined;
-                // console.log(that.data.value_index[detail_index1], '111')
-              } else {
-                // console.log(obj.attr_list[i].id);
-                that.data.attr_id = obj.attr_list[i].id;
-                obj.change_price = obj.attr_list[i].price;
-                obj.change_stock = obj.attr_list[i].stock;
-              }
-            }
-          }
-        } else {
-          obj.change_price = obj.price;
-          obj.change_stock = 0;
+        if (data.value_index0 !== '' && data.value_index1 !== '' && data.value_index2 !== '') {
+          attrinfo = this.attr_search(data.value_index0 + '_' + data.value_index1 + '_' + data.value_index2);
         }
         break;
+      default:
+        app.toast('数据异常')
     }
-    // console.log(index);
-    // console.log(obj);
-    this.setData({
-      goods: obj,
-      amount: obj.change_stock === 0 ? obj.change_stock : 1,
-      value_index: this.data.value_index
+
+    if (attrinfo !== "") {
+      console.log(attrinfo);
+      this.setData({
+        attrinfo: attrinfo
+      });
+    }
+  },
+
+  // 查找当前选中的规格详情
+  attr_search(value_index) {
+    let attr_list = this.data.goods.attr_list;
+    for (let i = 0; i < attr_list.length; i++) {
+      if (attr_list[i].value_index === value_index.toString()) {
+        this.setData({
+          attr_index: i
+        })
+        return attr_list[i];
+      }
+    }
+  },
+
+  // 查找数组的交集
+  intersection: function (array1, array2) {
+    var result = array2.filter(function (v) {
+      return array1.indexOf(v) !== -1 // 利用filter方法来遍历是否有相同的元素
     });
+    return result;
+  },
+
+  //查找可用 有库存的 索引
+  attr_search_stock: function () {
+    let attr_list = this.data.goods.attr_list;
+    let attr_detail = [];
+    let value_index0 = this.data.value_index0; //当前
+    let value_index1 = this.data.value_index1;
+    let value_index2 = this.data.value_index2;
+
+
+    let stock_index_array = this.attr_search_stock_from_single_index(attr_list, value_index0, value_index1, value_index2);
+
+    console.log(value_index0, value_index1, value_index2, '---------slected value_indexs');
+    console.log(stock_index_array, '----------------stock_index_array');
+
+    let stock_index0 = []; //当前可用索引0
+    let stock_index1 = []; //当前可用索引0
+    let stock_index2 = []; //当前可用索引0
+
+    stock_index0 = stock_index_array[0];
+    stock_index1 = stock_index_array[1];
+    stock_index2 = stock_index_array[2];
+
+
+
+    for (let i = 0; i < this.data.goods.attr_detail.length; i++) {
+      let tmp_obj0 = {};
+      let list = this.data.goods.attr_detail[i].list;
+
+      tmp_obj0.title = this.data.goods.attr_detail[i].title;
+      tmp_obj0.list = [];
+      for (let j = 0; j < list.length; j++) {
+        let tmp_obj1 = {};
+        tmp_obj1.title = list[j];
+        if (i === 0) {
+          if (!this.in_array(j, stock_index0)) {
+            tmp_obj1.disabled = true;
+          } else {
+            tmp_obj1.disabled = false;
+          }
+        }
+        if (i === 1) {
+          if (!this.in_array(j, stock_index1)) {
+            tmp_obj1.disabled = true;
+          } else {
+            tmp_obj1.disabled = false;
+          }
+        }
+        if (i === 2) {
+          if (!this.in_array(j, stock_index2)) {
+            tmp_obj1.disabled = true;
+          } else {
+            tmp_obj1.disabled = false;
+          }
+        }
+        tmp_obj0.list.push(tmp_obj1);
+      }
+      attr_detail.push(tmp_obj0);
+    }
+
+    // console.log(attr_detail,'current attr_detail')
+
+    this.setData({
+      attr_detail: attr_detail
+    })
+  },
+
+  //获取初始值
+  attr_stock_init: function () {
+    let attr_list = this.data.goods.attr_list;
+    console.log(attr_list, '-----------------attr_list');
+    let stock_index_array_init = [];
+    let stock_index0 = [];
+    let stock_index1 = [];
+    let stock_index2 = [];
+    for (let i = 0; i < attr_list.length; i++) {
+      if (attr_list[i].stock > 0) {
+        stock_index0.push(attr_list[i].value_index0);
+        stock_index1.push(attr_list[i].value_index1);
+        stock_index2.push(attr_list[i].value_index2);
+      }
+    }
+    stock_index_array_init = [this.unique(stock_index0), this.unique(stock_index1), this.unique(stock_index2)];
+    console.log(stock_index_array_init, '---------------------stock_index_array_init');
+    this.setData({
+      stock_index_init: stock_index_array_init
+    })
+    // return stock_index_array_init;
+  },
+
+  attr_search_stock_from_single_index: function (attr_list, value_index0, value_index1, value_index2) {
+
+    let stock_index_array_init = this.data.stock_index_init;
+    let stock_index_array = [];
+    for (let i = 0; i < 3; i++) {
+      let tmp_array = [];
+      let stock_index0 = [];
+      let stock_index1 = [];
+      let stock_index2 = [];
+      for (let j = 0; j < attr_list.length; j++) {
+        let equal0 = value_index0 !== '' ? value_index0 === attr_list[j].value_index0 : true;
+        let equal1 = value_index1 !== '' ? value_index1 === attr_list[j].value_index1 : true;
+        let equal2 = value_index2 !== '' ? value_index2 === attr_list[j].value_index2 : true;
+
+        if (attr_list[j].stock > 0 && i === 0 && equal0) {
+          stock_index0.push(attr_list[j].value_index0);
+          stock_index1.push(attr_list[j].value_index1);
+          stock_index2.push(attr_list[j].value_index2);
+        }
+        if (attr_list[j].stock > 0 && i === 1 && equal1) {
+          stock_index0.push(attr_list[j].value_index0);
+          stock_index1.push(attr_list[j].value_index1);
+          stock_index2.push(attr_list[j].value_index2);
+        }
+        if (attr_list[j].stock > 0 && i === 2 && equal2) {
+          stock_index0.push(attr_list[j].value_index0);
+          stock_index1.push(attr_list[j].value_index1);
+          stock_index2.push(attr_list[j].value_index2);
+        }
+      }
+      // console.log(stock_index0,'-----------stock_index0_' + i)
+      tmp_array = [this.unique(stock_index0), this.unique(stock_index1), this.unique(stock_index2)];
+      stock_index_array.push(tmp_array);
+    }
+    // return stock_index_array;
+
+    let arr0 = this.intersection(this.intersection(stock_index_array_init[0], stock_index_array[1][0]), stock_index_array[2][0]);
+    let arr1 = this.intersection(this.intersection(stock_index_array[0][1], stock_index_array_init[1]), stock_index_array[2][1]);
+    let arr2 = this.intersection(this.intersection(stock_index_array[0][2], stock_index_array[1][2]), stock_index_array_init[2]);
+
+    return [arr0, arr1, arr2];
+    // return stock_index_array;
+
+  },
+
+  unique: function (arr) {
+    return Array.from(new Set(arr));
+  },
+
+  in_array: function (ele, arr) {
+    let flag = false;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] == ele) {
+        flag = true;
+        break;
+      }
+    }
+    return flag;
   },
 
   // 去他人主页

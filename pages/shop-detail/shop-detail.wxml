@@ -107,25 +107,34 @@
 				<image src="{{goods.pics[0]}}" class="cover" mode="aspectFill"></image>
 				<view class="info">
 					<view class="goods-name two-line-ellipsis">{{goods.name}}</view>
-					<view class="price">{{goods.use_attr == 1 ? goods.change_price : goods.price}}</view>
+					<view class="price">{{goods.use_attr == 1 ? attrinfo.price : goods.price}}</view>
 				</view>
 			</view>
+
+			<!-- 使用规格组 -->
 			<view class="param" wx:if="{{goods.use_attr == 1}}">
 
-				<block wx:for="{{goods.attr_detail}}" wx:key="id" wx:for-index='index_one'>
+				<block wx:for="{{attr_detail}}" wx:key="id" wx:for-index='level0_index'>
 					<view class="param-name">
 						{{item.title}}
 					</view>
-					<view class="param-list" data-findex="{{index}}">
-						<view bindtap="attr_choose" data-index_two="{{index_two}}" data-index_one="{{index_one}}" class="{{item.checked? 'active' : ''}} {{item.stock == 0 ? 'disabled' : ''}}" wx:for="{{item.list}}" wx:for-index='index_two' wx:key="index">{{item.title}}</view>
+					<view class="param-list" data-findex="{{level0_index}}" wx:if="{{level0_index===0}}">
+					<view bindtap="attr_choose" data-disabled="{{item.disabled}}" data-level0_index="{{level0_index}}" data-level1_index="{{index}}" class="{{ index === value_index0 ? 'active' : ''}} {{ item.disabled ? 'disabled' : '' }}" wx:for="{{item.list}}" wx:for-index='index' wx:key="index">{{item.title}}</view>
 					</view>
+					<view class="param-list" data-findex="{{level0_index}}" wx:if="{{level0_index===1}}">
+					<view bindtap="attr_choose" data-disabled="{{item.disabled}}" data-level0_index="{{level0_index}}" data-level1_index="{{index}}" class="{{ index === value_index1 ? 'active' : ''}} {{ item.disabled ? 'disabled' : '' }}" wx:for="{{item.list}}" wx:for-index='index' wx:key="index">{{item.title}}</view>
+					</view>
+					<view class="param-list" data-findex="{{level0_index}}" wx:if="{{level0_index===2}}">
+					<view bindtap="attr_choose" data-disabled="{{item.disabled}}" data-level0_index="{{level0_index}}" data-level1_index="{{index}}" class="{{ index === value_index2 ? 'active' : ''}} {{ item.disabled ? 'disabled' : '' }}" wx:for="{{item.list}}" wx:for-index='index' wx:key="index">{{item.title}}</view>
+					</view>
+
 				</block>
 
 			</view>
 			<view class="amount-block">
 				<view class="title">购买数量</view>
 				<view class="xia-box">
-					<view class="stock">剩余{{goods.use_attr == 1 ? goods.change_stock : goods.stock}}件</view>
+					<view class="stock">剩余{{goods.use_attr == 1 ? attrinfo.stock : goods.stock}}件</view>
 					<view class="add-sub">
 						<image bindtap="sub" src="/icons/minus.png" class="sub"></image>
 						<view class="num">{{amount}}</view>
