@@ -3,7 +3,7 @@
 	<view class="swiper-wrapper" wx:if="{{goods.pics.length > 1}}">
 		<swiper autoplay="{{true}}" class="top-swiper" bindchange="swiper_change">
 			<swiper-item wx:for="{{goods.pics}}" wx:key="index">
-				<image src="{{item}}?x-oss-process=image/resize,w_400" mode="aspectFill"></image>
+				<image bindtap="look" data-index="{{index}}" src="{{item}}?x-oss-process=image/resize,w_400" mode="aspectFill"></image>
 			</swiper-item>
 		</swiper>
 

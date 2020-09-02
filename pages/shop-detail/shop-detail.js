@@ -84,6 +84,24 @@ Page({
       swiper_current: e.detail.current
     });
   },
+
+  // 点击图片看大图
+  look(e) {
+    let pics = this.data.goods.pics;
+    let index = e.currentTarget.dataset.index;
+
+    wx.previewImage({
+      urls: pics,
+      current: pics[index],
+      success: function (res) {
+        console.log(res, 'succ');
+      },
+      fail: function (err) {
+        console.log(err, 'err');
+      }
+    })
+  },
+
   // 切换tab
   tab_change(e) {
     this.setData({

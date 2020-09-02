@@ -24,7 +24,7 @@ App({
   config: {
     base_url: 'https://mp.tjluckytoy.com',
     base_api: 'https://mp.tjluckytoy.com/mp/',
-    aliyun_base: 'https://testoss.psn.asia/',
+    aliyun_base: 'https://shanhaitest.oss-cn-beijing.aliyuncs.com',
     reg: {
       tel: /^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/,
       phone: /\d{3,4}-\d{7,8}/,
