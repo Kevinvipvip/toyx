@@ -4,7 +4,8 @@
 		<!-- 用户信息 -->
 		<view class="user-box" style="padding-top:{{topBarHeight + statusBarHeight}}px">
 			<view class="navigationBarTitleText" style="top:{{statusBarHeight}}px;height:{{topBarHeight}}px">我的</view>
-			<image src="{{user.avatar}}" class="header"></image>
+			<image src="/images/default.png" class="header" wx:if="{{user.user_auth == 0}}"></image>
+			<image src="{{user.avatar}}" class="header" wx:else></image>
 			<view class="info">
 				<view class="title-line">
 					<button bindgetuserinfo="auth" open-type="getUserInfo" class="auth" wx:if="{{user.user_auth == 0}}">点击授权</button>

@@ -498,6 +498,7 @@
 
 .param-modal .amount-block .xia-box .add-sub .num {
   height: 40rpx;
+  width: 60rpx;
   box-sizing: border-box;
   border: 2rpx solid #bfbfbf;
   border-radius: 10rpx;
@@ -507,7 +508,15 @@
   font-size: 24rpx;
   color: rgba(0, 0, 0, 0.6);
   margin-right: 10rpx;
-  padding: 0 15rpx;
+  /* padding: 0 15rpx; */
+}
+
+.param-modal .amount-block .xia-box .add-sub .num input {
+  text-align: center;
+  font-size: 24rpx;
+  color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
 }
 
 .param-modal .amount-block .xia-box .add-sub .add {

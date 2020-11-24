@@ -16,6 +16,7 @@ Page({
     attr_index: 0, // 选中的参数索引，默认为第一个
     buy_type: 1, // 1.购买 2.购物车
     amount: 0, // 购买数量
+    is_disabled: true,
 
     poster_show: false, // 是否显示海报
     poster: '', // 海报图片
@@ -100,6 +101,50 @@ Page({
         console.log(err, 'err');
       }
     })
+  },
+
+  // 输入购买数量获取焦点时事件
+  get_blur() {
+    this.estimate_attr(() => {
+      this.data.is_disabled = false;
+    }, () => {
+      this.data.is_disabled = true;
+    });
+    this.setData({
+      is_disabled: this.data.is_disabled
+    })
+  },
+
+  // 输入购买数量失去焦点后事件
+  blur_get_value(e) {
+    let get_value = parseInt(e.detail.value);
+    let data = this.data;
+    let amount;
+    if (get_value <= 0) {
+      amount = data.goods.attr_list[data.attr_index].stock !== 0 ? 1 : 0;
+    } else {
+      if (data.goods.attr_list[data.attr_index].stock > data.goods.limit) {
+        if (get_value > data.goods.limit) {
+          app.toast('该商品最多限购 ' + data.goods.limit + ' 件哦');
+          amount = data.goods.limit;
+          // app.toast('该商品库存仅剩下 ' + data.goods.attr_list[data.attr_index].stock + ' 件了哦');
+          // amount = data.goods.attr_list[data.attr_index].stock;
+        } else {
+          amount = get_value
+        }
+      } else {
+        if (get_value > data.goods.attr_list[data.attr_index].stock) {
+          app.toast('该商品库存仅剩下 ' + data.goods.attr_list[data.attr_index].stock + ' 件了哦');
+          amount = data.goods.attr_list[data.attr_index].stock;
+        } else {
+          amount = get_value
+        }
+      }
+    }
+
+    this.setData({
+      amount: amount
+    });
   },
 
   // 切换tab
@@ -291,30 +336,39 @@ Page({
     }
   },
   // 规格分组判断
-  estimate_attr(complete) {
+  estimate_attr(succ, err) {
     console.log(this.data.attr_index)
     if (this.data.goods.attr_detail) {
       switch (this.data.goods.attr_group_num) {
         case 1:
           if (this.data.value_index0.toString()) {
-            complete();
+            succ();
           } else {
+            if (err) {
+              err();
+            }
             app.toast('请先选择规格后操作');
             this.data.add_loading = false;
           }
           break;
         case 2:
           if (this.data.value_index0.toString() && this.data.value_index1.toString()) {
-            complete();
+            succ();
           } else {
+            if (err) {
+              err();
+            }
             app.toast('请先选择规格后操作');
             this.data.add_loading = false;
           }
           break;
         case 3:
           if (this.data.value_index0.toString() && this.data.value_index1.toString() && this.data.value_index2.toString()) {
-            complete();
+            succ();
           } else {
+            if (err) {
+              err();
+            }
             app.toast('请先选择规格后操作');
             this.data.add_loading = false;
           }
@@ -388,17 +442,28 @@ Page({
     if (attrinfo !== "") {
       console.log(attrinfo);
       this.setData({
+        is_disabled: false,
         attrinfo: attrinfo
       });
+    } else {
+      this.setData({
+        is_disabled: true
+      })
     }
   },
 
   // 查找当前选中的规格详情
   attr_search(value_index) {
     let attr_list = this.data.goods.attr_list;
+    let amount = this.data.amount;
     for (let i = 0; i < attr_list.length; i++) {
       if (attr_list[i].value_index === value_index.toString()) {
+        if (amount > attr_list[i].stock) {
+          amount = attr_list[i].stock;
+          app.toast('该商品库存仅剩下 ' + amount + ' 件了哦');
+        }
         this.setData({
+          amount: amount,
           attr_index: i
         })
         return attr_list[i];

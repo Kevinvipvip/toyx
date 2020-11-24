@@ -119,13 +119,13 @@
 						{{item.title}}
 					</view>
 					<view class="param-list" data-findex="{{level0_index}}" wx:if="{{level0_index===0}}">
-					<view bindtap="attr_choose" data-disabled="{{item.disabled}}" data-level0_index="{{level0_index}}" data-level1_index="{{index}}" class="{{ index === value_index0 ? 'active' : ''}} {{ item.disabled ? 'disabled' : '' }}" wx:for="{{item.list}}" wx:for-index='index' wx:key="index">{{item.title}}</view>
+						<view bindtap="attr_choose" data-disabled="{{item.disabled}}" data-level0_index="{{level0_index}}" data-level1_index="{{index}}" class="{{ index === value_index0 ? 'active' : ''}} {{ item.disabled ? 'disabled' : '' }}" wx:for="{{item.list}}" wx:for-index='index' wx:key="index">{{item.title}}</view>
 					</view>
 					<view class="param-list" data-findex="{{level0_index}}" wx:if="{{level0_index===1}}">
-					<view bindtap="attr_choose" data-disabled="{{item.disabled}}" data-level0_index="{{level0_index}}" data-level1_index="{{index}}" class="{{ index === value_index1 ? 'active' : ''}} {{ item.disabled ? 'disabled' : '' }}" wx:for="{{item.list}}" wx:for-index='index' wx:key="index">{{item.title}}</view>
+						<view bindtap="attr_choose" data-disabled="{{item.disabled}}" data-level0_index="{{level0_index}}" data-level1_index="{{index}}" class="{{ index === value_index1 ? 'active' : ''}} {{ item.disabled ? 'disabled' : '' }}" wx:for="{{item.list}}" wx:for-index='index' wx:key="index">{{item.title}}</view>
 					</view>
 					<view class="param-list" data-findex="{{level0_index}}" wx:if="{{level0_index===2}}">
-					<view bindtap="attr_choose" data-disabled="{{item.disabled}}" data-level0_index="{{level0_index}}" data-level1_index="{{index}}" class="{{ index === value_index2 ? 'active' : ''}} {{ item.disabled ? 'disabled' : '' }}" wx:for="{{item.list}}" wx:for-index='index' wx:key="index">{{item.title}}</view>
+						<view bindtap="attr_choose" data-disabled="{{item.disabled}}" data-level0_index="{{level0_index}}" data-level1_index="{{index}}" class="{{ index === value_index2 ? 'active' : ''}} {{ item.disabled ? 'disabled' : '' }}" wx:for="{{item.list}}" wx:for-index='index' wx:key="index">{{item.title}}</view>
 					</view>
 
 				</block>
@@ -137,7 +137,7 @@
 					<view class="stock">剩余{{goods.use_attr == 1 ? attrinfo.stock : goods.stock}}件</view>
 					<view class="add-sub">
 						<image bindtap="sub" src="/icons/minus.png" class="sub"></image>
-						<view class="num">{{amount}}</view>
+						<view class="num"><input value="{{amount}}" type="number" bindblur='blur_get_value' disabled="{{is_disabled}}" bindtap='get_blur'></input></view>
 						<image bindtap="add" src="/icons/add2.png" class="add"></image>
 					</view>
 				</view>

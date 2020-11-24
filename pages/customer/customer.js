@@ -5,7 +5,7 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-		bg_img_src: app.config.aliyun_base + 'static/mp-customer-bg.png',
+		bg_img_src: app.config.aliyun_base + '/static/mp-customer-bg.png',
 		name: '',
 		tel: '',
 		c_name: '',

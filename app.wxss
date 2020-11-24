@@ -116,6 +116,7 @@ button::after {
 .content-wrapper image {
   width: 100%;
   min-height: 750rpx;
+  height: auto;
   vertical-align: bottom;
 }
 

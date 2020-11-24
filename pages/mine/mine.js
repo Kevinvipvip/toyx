@@ -32,7 +32,6 @@ Page({
 					tel: app.user_data.tel || '',
 				}
 			});
-
 			if (complete) {
 				complete();
 			}
